@@ -22,8 +22,6 @@ function parseTasks(saved: string): Task[] {
 function TaskColumn({
   category,
   title,
-  subtitle,
-  icon,
   tasks,
   onAdd,
   onStatus,
@@ -31,8 +29,6 @@ function TaskColumn({
 }: {
   category: Category;
   title: string;
-  subtitle: string;
-  icon: string;
   tasks: Task[];
   onAdd: (title: string, category: Category) => void;
   onStatus: (id: string, status: Status) => void;
@@ -51,8 +47,7 @@ function TaskColumn({
   return (
     <section className={`task-column ${category}`} aria-labelledby={`${category}-title`}>
       <header className="column-header">
-        <div className="icon" aria-hidden="true">{icon}</div>
-        <div><p>{subtitle}</p><h2 id={`${category}-title`}>{title}</h2></div>
+        <h2 id={`${category}-title`}>{title}</h2>
         <span className="count">{tasks.length.toString().padStart(2, "0")}</span>
       </header>
 
@@ -63,11 +58,11 @@ function TaskColumn({
       </form>
 
       <div className="task-list">
-        {tasks.length === 0 && <div className="empty"><span>✦</span><p>All clear here.</p><small>Add something above when it comes up.</small></div>}
+        {tasks.length === 0 && <div className="empty"><p>Nothing on the list. Yet.</p></div>}
         {tasks.map((task) => (
           <article className={`task ${task.status === "Done" ? "complete" : ""}`} key={task.id}>
             <button className="check" onClick={() => onStatus(task.id, task.status === "Done" ? "To do" : "Done")} aria-label={task.status === "Done" ? `Mark ${task.title} as to do` : `Mark ${task.title} complete`}>{task.status === "Done" ? "✓" : ""}</button>
-            <div className="task-copy"><h3>{task.title}</h3><span>{category === "school" ? "School" : category === "shift" ? "Shift" : "Personal"}</span></div>
+            <div className="task-copy"><h3>{task.title}</h3></div>
             <label className="sr-only" htmlFor={`status-${task.id}`}>Status for {task.title}</label>
             <select id={`status-${task.id}`} value={task.status} onChange={(e) => onStatus(task.id, e.target.value as Status)}>
               {STATUS_OPTIONS.map((status) => <option key={status}>{status}</option>)}
@@ -84,14 +79,14 @@ export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [ready, setReady] = useState(false);
 
-  const [saveMessage, setSaveMessage] = useState("Loading saved tasks…");
+  const [saveMessage, setSaveMessage] = useState("");
 
   useEffect(() => {
     function load() {
       try {
         const saved = window.localStorage.getItem("neve-tasks");
         setTasks(saved ? parseTasks(saved) : []);
-        setSaveMessage("Saved in this browser · safe to close this tab");
+        setSaveMessage("");
         setReady(true);
       } catch {
         setSaveMessage("Your saved tasks could not be loaded. Please keep this tab open and try again.");
@@ -120,7 +115,7 @@ export default function Home() {
       // Save before updating the screen, including when a tab is closed immediately.
       window.localStorage.setItem("neve-tasks", JSON.stringify(next));
       setTasks(next);
-      setSaveMessage("Saved in this browser · safe to close this tab");
+      setSaveMessage("");
     } catch {
       setSaveMessage("Could not save that change. Please keep this tab open and check browser storage.");
     }
@@ -148,9 +143,9 @@ export default function Home() {
 
   return (
     <main>
-      <nav><div className="mini-mark">NRP</div><p>My little task garden</p><span>{new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" })}</span></nav>
+      <nav><p>Every damn day</p><span>{new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" })}</span></nav>
       <section className="hero">
-        <h1>Neve R. Palmeri</h1>
+        <div className="identity"><h1>NRP<span aria-hidden="true">.</span></h1><p className="full-name">Neve R. Palmeri</p></div>
         <div className="summary">
           <p><strong>{tasks.length - done}</strong> things left</p>
           <div className="progress" aria-label={`${progress}% complete`}><i style={{ width: `${progress}%` }} /></div>
@@ -158,13 +153,13 @@ export default function Home() {
         </div>
       </section>
 
-      <p className="save-status" role="status">{saveMessage}</p>
+      {saveMessage && <p className="save-error" role="alert">{saveMessage}</p>}
       <div className="board" aria-busy={!ready}>
-        <TaskColumn category="school" title="School" subtitle="Learn & grow" icon="✎" tasks={grouped.school} onAdd={addTask} onStatus={updateStatus} onDelete={deleteTask} />
-        <TaskColumn category="shift" title="Shift to-do" subtitle="On the clock" icon="☼" tasks={grouped.shift} onAdd={addTask} onStatus={updateStatus} onDelete={deleteTask} />
-        <TaskColumn category="personal" title="Personal" subtitle="Just for me" icon="♡" tasks={grouped.personal} onAdd={addTask} onStatus={updateStatus} onDelete={deleteTask} />
+        <TaskColumn category="personal" title="Personal" tasks={grouped.personal} onAdd={addTask} onStatus={updateStatus} onDelete={deleteTask} />
+        <TaskColumn category="school" title="School" tasks={grouped.school} onAdd={addTask} onStatus={updateStatus} onDelete={deleteTask} />
+        <TaskColumn category="shift" title="Shift" tasks={grouped.shift} onAdd={addTask} onStatus={updateStatus} onDelete={deleteTask} />
       </div>
-      <footer><span>One thing at a time.</span><p>Made just for Neve ♡</p></footer>
+      <footer><p>Show up. Put in the work.<br /><strong>Do it every damn day.</strong></p></footer>
     </main>
   );
 }
