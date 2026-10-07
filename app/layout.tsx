@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Neve's Task Garden",
-  description: "A personal school and shift to-do tracker for Neve R. Palmeri.",
+  description: "A personal school, work, and personal to-do tracker for Neve R. Palmeri.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
