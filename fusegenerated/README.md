@@ -99,3 +99,36 @@ Image reference:
 - Nitro Bar coffee photo: https://www.corner.inc/place/8720
 
 Confirm commercial rights and asset reliability before launching with actual businesses. Real named merchants have **not** agreed to join FuseGenerated.
+
+## TikTok-only For You / My Town / Friends and restaurant brief update
+
+Explore now opens to **New opportunities today**. This means newly featured **fictional demo opportunities**, not a verified live publication feed. The featured offer is a Nitro coffee opportunity with a real venue-related coffee photo sourced from The Food Lens; the card's actual restaurant brief is visible directly below the photo. The large payment/reward button is removed from Explore, and the original Providence opportunity map is retained. Primary brand colors are midnight navy, electric lime, and neutral white, with no purple dot accents.
+
+### Adding real TikTok links in the demo
+
+Open **For You** and choose **For You**, **My Town**, or **Friends**. Tap **Add video** and supply:
+- A full public TikTok URL containing a video ID (e.g. `https://www.tiktok.com/@creator/video/1234567890123456789`)
+- A short caption/title, creator handle, and the place shown
+- The collection: **For You** for any topic, **My Town** for Providence, or **Friends** for videos found through friends
+
+The app embeds the official TikTok Player by video ID, with the original source link and creator attribution. Posts are displayed in their original TikTok frame; local metadata and links persist in this demo browser only. Public availability and embedding permissions are controlled by TikTok and the video's owner. Short share URLs without a `/video/<ID>` segment are not currently resolved; open the TikTok link in a browser and paste its full URL. Friends profiles and categorization are not automatically verified.
+
+The For You collection is seeded with a single **official TikTok developer documentation example** as proof of the player interface, clearly labeled as a sample, not a Providence creator video.
+
+### Detailed restaurant briefs
+
+Business → Create now requests:
+- The objective of the offer, compensation as a covered visit, and 3 creator spots
+- An explicit hook/opening line
+- Must-show shots (e.g. store exterior, menu and price, dish closeups)
+- Required factual talking points (hours, distance, price)
+- Creator freedom/constraints, platform format, and posting timing
+
+Created campaigns store these details and show them in the creator's offer view; the Explore brief preview shows the agreed creative brief. Restaurants may request accurate, original content, not require a positive review. Creators must disclose the provided meal.
+
+### Sources and limitations
+
+- Nitro Bar coffee photo: The Food Lens / Brian Samuels Photography, https://www.thefoodlens.com/boston/explore/escapes/providence-ri/the-nitro-bar/. Third-party rights not cleared; replace with approved partner imagery before public commercial use.
+- Official TikTok Player: https://developers.tiktok.com/docs/en/embed-player
+
+The app is a **browser-local hackathon demo** and is not a real-time feed of venue-posted campaigns or an automatic TikTok recommendation algorithm. No actual restaurant deals, TikTok user uploads, verified friend graph, or live analytics are implied.
