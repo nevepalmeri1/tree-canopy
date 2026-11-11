@@ -7,8 +7,13 @@
   const selection=id=>(state.inspoAssignments||{})[id]||"";
   function card(v){
     const meta=inspirationCache[v.id]||{};
-    const media=meta.id?'<iframe loading="lazy" title="Original TikTok example" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" src="https://www.tiktok.com/player/v1/'+esc(meta.id)+'?controls=1&description=1"></iframe>':
-      '<div class="inspo-fallback"><span class="inspo-tiktok-logo">♪</span><strong>Video '+(founderInspo.findIndex(item=>item.id===v.id)+1||"example")+'</strong><p>'+(meta.status==="unavailable"?"TikTok preview is unavailable here. The original video opens directly.":"Opening your original TikTok…")+'</p><a class="inspo-watch-btn" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">▶ Watch actual TikTok ↗</a></div>';
+    const index=founderInspo.findIndex(item=>item.id===v.id);
+    const label=index>=0?"Video "+(index+1):"Saved video";
+    const cover=meta.thumbnail&&/^https:\/\//.test(meta.thumbnail)?
+      '<img class="inspo-cover-image" src="'+esc(meta.thumbnail)+'" alt="'+esc((meta.title||label)+" TikTok cover")+'" loading="lazy" referrerpolicy="no-referrer">':'';
+    const media='<a class="inspo-cover-link'+(cover?" has-cover":"")+'" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Watch '+esc(label)+' on TikTok">'+
+      cover+'<div class="inspo-cover-fallback"><span class="inspo-tiktok-logo">♪</span><strong>'+esc(label)+'</strong><span class="inspo-preview-status">'+(meta.status==="unavailable"?"Cover unavailable":"TikTok cover preview")+'</span></div>'+
+      '<span class="inspo-cover-play" aria-hidden="true">▶</span><span class="inspo-cover-cta">Watch on TikTok ↗</span></a>';
     return '<article class="founder-inspo-card" data-inspo-id="'+esc(v.id)+'"><div class="founder-inspo-media">'+media+'</div><div class="founder-inspo-copy"><span class="eyebrow">REAL TIKTOK EXAMPLE</span><h3>'+esc(meta.title||"Creator video inspiration")+'</h3><p>'+esc(meta.author||"Original creator — not verified")+'</p><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open on TikTok ↗</a>'+
       '<label class="label" for="assign-'+esc(v.id)+'">Match with a restaurant</label><select class="field" data-inspo-assign="'+esc(v.id)+'" id="assign-'+esc(v.id)+'"><option value="">Not assigned yet</option>'+state.businesses.filter(b=>b.id!=="juniper").map(b=>'<option value="'+esc(b.id)+'" '+(selection(v.id)===b.id?"selected":"")+'>'+esc(b.name)+'</option>').join("")+'</select></div></article>';
   }
@@ -33,7 +38,7 @@
       if(!r.ok)throw Error("TikTok metadata unavailable");
       const j=await r.json();
       if(!/^\d{10,25}$/.test(String(j.id||"")))throw Error("Missing video ID");
-      data={status:"ready",id:String(j.id),title:String(j.title||"TikTok example"),author:String(j.author||"TikTok creator")};
+      data={status:"ready",id:String(j.id),title:String(j.title||"TikTok example"),author:String(j.author||"TikTok creator"),thumbnail:typeof j.thumbnail==="string"&&j.thumbnail.startsWith("https://")?j.thumbnail:null};
     }catch{}
     inspirationCache[v.id]=data;
     const existing=document.querySelector('[data-inspo-id="'+v.id+'"]');
@@ -45,6 +50,10 @@
     const ids=[...document.querySelectorAll("[data-inspo-id]")].map(n=>n.getAttribute("data-inspo-id"));
     for(const v of getVideos())if(ids.includes(v.id)&&!inspirationCache[v.id])resolveOne(v);
   }
+  document.addEventListener("error",event=>{
+    const image=event.target;
+    if(image?.matches?.(".inspo-cover-image")){image.hidden=true;image.closest(".inspo-cover-link")?.classList.add("cover-failed");}
+  },true);
   function acceptURL(value){try{
     const parsed=new URL(value);const host=parsed.hostname.toLowerCase();
     if(parsed.protocol!=="https:"||!["www.tiktok.com","tiktok.com","m.tiktok.com","vm.tiktok.com","vt.tiktok.com"].includes(host))return null;
