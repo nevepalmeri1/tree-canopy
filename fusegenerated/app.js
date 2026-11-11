@@ -67,7 +67,21 @@ const videosForMe=()=>state.videos.filter(v=>v.studentId===state.activeStudent);
 function load(){try{const v=JSON.parse(localStorage.getItem(STORAGE));if(v&&Array.isArray(v.claims)&&Array.isArray(v.videos)&&Array.isArray(v.campaigns)&&Array.isArray(v.students)&&Array.isArray(v.businesses))return {...seed(),...v,tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null};}catch{}return seed()}
 function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(state))}catch{toast("Browser storage is unavailable; changes may not persist.")}}
 function toast(message){const el=$("#toast");el.textContent=message;el.classList.add("show");clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>el.classList.remove("show"),3200)}
-function img(src,alt,extra=""){return '<img src="'+esc(src)+'" alt="'+esc(alt)+'" loading="lazy" '+extra+'>'}
+function img(src,alt,extra=""){
+ const isCoffee=/coffee|nitro|espresso/i.test(src+" "+alt);
+ const isPastry=/pastry|breakfast|toast/i.test(src+" "+alt);
+ const isBowl=/bowl|dinner|noodles/i.test(src+" "+alt);
+ const emoji=isCoffee?"☕":isPastry?"🥐":isBowl?"🍜":"🥪";
+ const subtitle=isCoffee?"A LITTLE COFFEE MOMENT":isPastry?"YOUR NEXT FAVORITE BITE":isBowl?"A TABLE WORTH SHARING":"LUNCH PLANS, SORTED";
+ return '<div class="photo-surface" role="img" aria-label="'+esc(alt)+'"><div class="photo-backdrop"><span class="photo-stamp">FUSE / FOOD</span><span class="photo-plate">'+emoji+'</span><span class="photo-caption">'+subtitle+'</span></div><img class="actual-photo" src="'+esc(src)+'" alt="" loading="lazy" '+extra+'></div>';
+}
+document.addEventListener("error",event=>{
+ const node=event.target;
+ if(node&&node.tagName==="IMG"&&node.classList.contains("actual-photo")){
+   node.hidden=true;
+   node.closest(".photo-surface")?.classList.add("image-failed");
+ }
+},true);
 function tag(text,kind=""){return '<span class="status '+kind+'">'+esc(text)+'</span>'}
 function btn(label,action,id="",style="button",attrs=""){return '<button type="button" class="'+style+'" data-action="'+esc(action)+'" data-id="'+esc(id)+'" '+attrs+'>'+label+'</button>'}
 function nav(){const options=state.role==="student"?[["explore","⌕","Explore"],["visits","▣","My visits"],["content","▥","My content"],["profile","◯","Profile"],["referrals","↗","Refer"]]:[["overview","▦","Overview"],["create","＋","Create offer"],["creators","♧","Creators"],["videos","▣","Creator videos"]];$("#bottomNav").innerHTML=options.map(([id,symbol,label])=>'<button type="button" data-tab="'+id+'" class="'+(state.tab===id?"active":"")+'" aria-current="'+(state.tab===id?"page":"false")+'"><span class="nav-icon">'+symbol+'</span><span>'+label+'</span></button>').join("");$("#roleSwitch").innerHTML=state.role==="student"?'Creator <span>⇄</span>':'Business <span>⇄</span>'}
@@ -79,7 +93,7 @@ function goTab(tab){state.tab=tab;state.detail=null;render();$("#content").scrol
 function goDetail(type,id){state.detail={type,id};render();$("#content").scrollTop=0}
 function imageTag(c){return c.comp==="cash"?'<span class="image-tag red">COVERED VISIT · '+esc(c.reward)+'</span>':'<span class="image-tag">'+esc(c.reward)+'</span>'}
 function offerChips(c){return '<div class="chips"><span class="chip">⌁ '+esc(c.neighborhood)+'</span><span class="chip '+(c.comp==="cash"?"cash":"")+'">'+esc(c.reward)+'</span><span class="chip">'+esc(capacity(c))+'</span></div>'}
-function featureCard(c){const b=business(c.businessId);return '<article class="feature-card"><div class="feature-image">'+img(c.image,c.title)+imageTag(c)+'</div><div class="feature-body"><div class="eyeline">'+esc(b.name)+' · '+esc(c.neighborhood)+'</div><h3>'+esc(c.title)+'</h3><p class="card-summary">'+esc(c.description)+'</p>'+offerChips(c)+btn("See the offer ↗","offer",c.id,"button full card-action")+'</div></article>'}
+function featureCard(c){const b=business(c.businessId);return '<article class="feature-card"><div class="feature-image">'+img(c.image,c.title)+imageTag(c)+'</div><div class="feature-body"><div class="feature-overline"><span class="eyeline">'+esc(b.name)+' · '+esc(c.neighborhood)+'</span><span class="feature-rating">✳ FEATURED</span></div><h3>'+esc(c.title)+'</h3><div class="featured-info"><span>✦ '+esc(c.reward)+'</span><span>◉ '+esc(capacity(c))+'</span></div><p class="card-summary">'+esc(c.description)+'</p>'+btn("See the offer <span aria-hidden=\"true\">↗</span>","offer",c.id,"button full card-action")+'</div></article>'}
 function smallCard(c){const b=business(c.businessId);return '<article class="offer-card"><div class="small-image">'+img(c.image,c.title)+'</div><div class="offer-body"><div class="eyeline">'+esc(c.neighborhood)+' · '+esc(b.name)+'</div><h3>'+esc(c.title)+'</h3><p class="card-summary">'+esc(c.reward)+' · '+esc(capacity(c))+'</p>'+btn("View offer →","offer",c.id,"button text")+'</div></article>'}
 function explore(){const featured=campaign("lunch"),others=state.campaigns.filter(c=>c.status==="open"&&c.id!=="lunch");return '<section class="page explore-page">'+heading("YOUR CITY, YOUR CONTENT","Around <em>Providence.</em>","Find your next spot. Make your own video. Enjoy a covered visit.")+'<div class="explore-control"><span class="location">⌖ Providence, RI</span>'+btn(state.mapVisible?"Hide map ↑":"Nearby map ↗","toggle-map","","button secondary tiny")+'</div>'+(state.mapVisible?mapPanel():"")+featureCard(featured)+'<div class="section-heading"><h2>Worth checking out</h2><span>'+others.length+' opportunities</span></div><div class="offers">'+others.map(smallCard).join("")+'</div><div class="notice">Illustrative offers only; named venues have not agreed to participate. Creators post one original video and disclose the covered visit.</div></section>';}
 function mapPanel(){return '<section class="map-wrap"><div class="map-frame" id="mapFrame" role="region" aria-label="Nearby creator opportunities"><div class="map-static">⌖ Providence opportunities</div></div><div class="map-key"><span>📍 Providence College area</span><span>Tap a pin or venue below</span></div><div class="map-links">'+state.campaigns.filter(c=>c.status==="open").map(c=>'<button type="button" class="map-link" data-action="offer" data-id="'+esc(c.id)+'">'+esc(business(c.businessId).name)+' <span>View ↗</span></button>').join("")+'</div></section>';}
