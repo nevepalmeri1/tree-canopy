@@ -89,6 +89,7 @@ function img(src,alt,extra=""){
 }
 document.addEventListener("error",event=>{
  const node=event.target;
+ if(node&&node.tagName==="VIDEO"&&node.classList.contains("reel-video")){node.hidden=true;node.closest(".reel-stage")?.classList.add("video-failed");return;}
  if(node&&node.tagName==="IMG"&&node.classList.contains("actual-photo")){
    node.hidden=true;
    node.closest(".photo-surface")?.classList.add("image-failed");
@@ -107,14 +108,22 @@ function imageTag(c){return c.comp==="cash"?'<span class="image-tag red">COVERED
 function offerChips(c){return '<div class="chips">'+(c.duo?'<span class="chip duo-chip">✳ YOU + A FRIEND</span>':'<span class="chip">SOLO</span>')+'<span class="chip">⌁ '+esc(c.neighborhood)+'</span><span class="chip">'+esc(c.reward)+'</span><span class="chip">'+esc(capacity(c))+'</span></div>'}
 function featureCard(c){const b=business(c.businessId);return '<article class="feature-card"><div class="feature-image">'+img(c.image,c.title)+imageTag(c)+'</div><div class="feature-body"><div class="feature-overline"><span class="eyeline">'+esc(b.name)+' · '+esc(c.neighborhood)+'</span><span class="feature-rating">✳ FEATURED</span></div><h3>'+esc(c.title)+'</h3><div class="featured-info"><span>✦ '+esc(c.reward)+'</span><span>◉ '+esc(capacity(c))+'</span></div><p class="card-summary">'+esc(c.description)+'</p>'+btn("See the offer <span aria-hidden=\"true\">↗</span>","offer",c.id,"button full card-action")+'</div></article>'}
 function smallCard(c){const b=business(c.businessId);return '<article class="offer-card"><div class="small-image">'+img(c.image,c.title)+'</div><div class="offer-body"><div class="eyeline">'+esc(c.neighborhood)+' · '+esc(b.name)+'</div>'+(c.duo?'<span class="duo-label">✳ YOU + A FRIEND</span>':'<span class="solo-label">SOLO</span>')+'<h3>'+esc(c.title)+'</h3><p class="card-summary">'+esc(c.reward)+' · '+esc(capacity(c))+'</p>'+btn("View offer →","offer",c.id,"button text")+'</div></article>'}
-function forYou(){
- const ideas=[
- {id:"inspo1",c:"nitro",hook:"Coffee runs worth the walk",creator:"@nevedog101",caption:"Show what you ordered, the vibe, and the walk from campus.",likes:"1.8k"},
- {id:"inspo2",c:"espresso",hook:"The Providence morning edit",creator:"@leo.pvd",caption:"Your three favorite details from a neighborhood café.",likes:"964"},
- {id:"inspo3",c:"pastry",hook:"Where I'd take my friend for brunch",creator:"@pvdfoodguide",caption:"One specific recommendation beats a generic review.",likes:"2.1k"},
- {id:"inspo4",c:"strive",hook:"A date-night dinner idea",creator:"@nevepalmeri",caption:"A real place, a real order, and an honest opinion.",likes:"1.2k"}
- ];return '<section class="page foryou-page">'+heading("LOCAL INSPO","For You","Get inspired by Providence spots and creator ideas.")+'<div class="social-tabs"><button class="active" type="button">Inspo</button><button type="button" data-action="show-explore">Opportunities ↗</button></div>'+ideas.map(i=>{const c=campaign(i.c),b=business(c.businessId);return '<article class="inspo-card"><div class="inspo-image">'+img(c.image,i.hook)+'<span class="inspo-overlay">✳ CONTENT IDEA</span></div><div class="inspo-copy"><p class="eyebrow">'+esc(b.name)+' · '+esc(c.neighborhood)+'</p><h3>'+esc(i.hook)+'</h3><p class="small muted">'+esc(i.caption)+'</p><div class="flex between"><span class="small muted">Inspo example · '+esc(i.creator)+'</span>'+btn("See offer ↗","offer",c.id,"button tiny")+'</div></div></article>';}).join("")+'<div class="notice">This is a curated demo inspiration feed, not live TikTok posts or ranking data.</div></section>';
-}
+const inspirationClips=[
+ {id:"clip-coffee",business:"The Nitro Bar",area:"Providence",creator:"@pvd.coffeeclub",title:"The iced coffee run",caption:"When the coffee is the whole plan ☕",poster:PHOTO.nitroCoffee,src:"https://assets.mixkit.co/videos/preview/mixkit-cup-being-filled-with-coffee-in-a-coffee-machine-41865-large.mp4",source:"https://mixkit.co/free-stock-video/cup-being-filled-with-coffee-in-a-coffee-machine-41865/"},
+ {id:"clip-pour",business:"Espresso by Strive",area:"Elmhurst",creator:"@aroundpvd",title:"A slow morning pour",caption:"Five seconds of coffee heaven.",poster:PHOTO.espressoReal,src:"https://assets.mixkit.co/videos/preview/mixkit-mug-with-sparkling-cappuccino-5072-large.mp4",source:"https://mixkit.co/free-stock-video/mug-with-sparkling-cappuccino-5072/"},
+ {id:"clip-brew",business:"Poppy Table",area:"Federal Hill",creator:"@weekendpvd",title:"Coffee & pastry day",caption:"The kind of weekend we love.",poster:PHOTO.poppyBakery,src:"https://assets.mixkit.co/videos/preview/mixkit-pouring-coffee-grounds-into-a-chemex-filter-100343-large.mp4",source:"https://mixkit.co/free-stock-video/pouring-coffee-grounds-into-a-chemex-filter-100343/"}
+];
+function forYou(){return '<section class="page reel-feed">'+heading("VIDEOS FROM AROUND TOWN","For You","Watch food & café inspiration from around Providence.")+
+ '<div class="reels-intro"><span>▶ VIDEO FEED</span><span>Tap play · Scroll for more</span></div>'+
+ inspirationClips.map((v,i)=>'<article class="reel-card"><div class="reel-stage">'+
+ '<div class="reel-poster">'+img(v.poster,v.title)+'</div>'+
+ '<video class="reel-video" controls playsinline preload="metadata" poster="'+esc(v.poster)+'" aria-label="'+esc(v.title)+'" '+(i===0?'':'')+'><source src="'+esc(v.src)+'" type="video/mp4">Video playback is unavailable.</video>'+
+ '<div class="reel-float"><span class="reel-label">DEMO VIDEO</span><div class="reel-actions">'+
+ btn(state.likedVideos.includes(v.id)?"♥":"♡","like-inspo",v.id,"reel-icon")+btn(state.savedVideos.includes(v.id)?"▣":"▢","save-inspo",v.id,"reel-icon")+
+ '</div></div></div>'+
+ '<div class="reel-caption"><div class="reel-author"><div class="reel-avatar">✳</div><div><b>'+esc(v.creator)+'</b><span>'+esc(v.business)+' · '+esc(v.area)+'</span></div></div>'+
+ '<h3>'+esc(v.title)+'</h3><p>'+esc(v.caption)+'</p><a href="'+esc(v.source)+'" target="_blank" rel="noopener noreferrer">View original sample footage ↗</a></div></article>').join("")+
+ '<p class="reels-disclaimer">These playable stock video examples demonstrate the feed design. They are not uploads from Fuse creators or endorsements by the pictured businesses.</p></section>';}
 const community=[
  {id:"leo",name:"Leo Park",handle:"@leo.pvd",school:"Rhode Island College",area:"College Hill",tags:"Coffee · lunch",initials:"LP"},
  {id:"emma",name:"Emma Rizzo",handle:"@emmarizzo",school:"Providence College",area:"Elmhurst",tags:"Brunch · cafés",initials:"ER"},
@@ -228,6 +237,8 @@ function attachTikTokVideo(id){
 }
 async function loadTikTokFeed(){const el=$("#tiktokFeed");if(!el)return;try{const r=await fetch("/api/tiktok/videos",{credentials:"same-origin"});if(r.status===401){el.innerHTML='<p class="small muted">Not connected yet. Authorize TikTok from Profile, or paste your post link in My visits.</p>';return;}if(!r.ok)throw Error("TikTok is unavailable");const json=await r.json();const videos=Array.isArray(json.videos)?json.videos:[];authorizedTikToks=videos;el.innerHTML=videos.length?videos.slice(0,12).map(v=>'<div class="video-card"><div class="flex"><div class="video-thumb">'+img(v.cover_image_url||PHOTO.coffee,v.title||"TikTok video")+'</div><div><h4>'+esc(v.title||"My TikTok")+'</h4><p class="tiny-muted">'+fmt(v.view_count||0)+' views · '+fmt(v.like_count||0)+' likes</p><a href="'+esc(v.share_url)+'" target="_blank" rel="noopener noreferrer" class="button text">Watch on TikTok ↗</a>'+btn("Use for a visit","attach-tiktok",v.id,"button secondary tiny")+'</div></div></div>').join(""):'<p class="small muted">No public TikTok uploads found on this connected account.</p>'; }catch{el.innerHTML='<p class="small muted">TikTok videos are unavailable right now. You can still submit a video URL in My visits.</p>';}}
 function doAction(action,id){switch(action){
+case"like-inspo":state.likedVideos=state.likedVideos.includes(id)?state.likedVideos.filter(x=>x!==id):[...state.likedVideos,id];persist();render();return;
+case"save-inspo":state.savedVideos=state.savedVideos.includes(id)?state.savedVideos.filter(x=>x!==id):[...state.savedVideos,id];persist();render();toast(state.savedVideos.includes(id)?"Video saved to your demo collection.":"Removed from saved videos.");return;
 case"show-explore":return goTab("explore");
 case"content-section":state.contentSection=id;render();return;
 case"friend-section":state.friendsSection=id;render();return;
