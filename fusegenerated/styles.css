@@ -425,3 +425,18 @@ body,.phone,.explore-page{background:#f8faf6!important}
 .inspo-gallery .founder-inspo-copy{padding:14px}
 .inspo-gallery .founder-inspo-copy h3{font-size:14px}
 .inspo-gallery .inspo-actions{margin-top:10px}
+
+/* TikTok inspiration: cover-first cards instead of auto-loaded video players */
+.inspo-cover-link{position:relative;display:block;width:100%;height:100%;overflow:hidden;color:white;text-decoration:none;background:linear-gradient(155deg,#19254e,#2e3d62)}
+.inspo-cover-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.inspo-cover-link.has-cover .inspo-cover-fallback{display:none}
+.inspo-cover-link.has-cover.cover-failed .inspo-cover-fallback{display:flex}
+.inspo-cover-link .inspo-cover-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;text-align:center;padding:20px}
+.inspo-cover-link .inspo-cover-fallback strong{font-size:17px;font-weight:850;color:white}
+.inspo-preview-status{color:#dce8ee;font-size:11px;font-weight:600}
+.inspo-cover-link .inspo-tiktok-logo{font-size:50px;line-height:1;color:#c7fb43}
+.inspo-cover-link .inspo-cover-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:62px;height:62px;padding-left:3px;background:#c7fb43;color:#17244b;border-radius:50%;box-shadow:0 5px 22px #141c4273;font-size:23px;z-index:2;transition:transform .18s ease}
+.inspo-cover-link:hover .inspo-cover-play{transform:translate(-50%,-50%) scale(1.08)}
+.inspo-cover-link.has-cover:not(.cover-failed)::after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#111a3899);pointer-events:none}
+.inspo-cover-cta{position:absolute;z-index:2;bottom:16px;left:16px;right:16px;text-align:center;color:white;font-weight:800;font-size:12px;text-shadow:0 1px 6px #0b153d}
+.inspo-cover-link .inspo-cover-image[hidden]{display:none}
