@@ -111,22 +111,48 @@ function offerChips(c){return '<div class="chips">'+(c.duo?'<span class="chip du
 function featureCard(c){const b=business(c.businessId);return '<article class="feature-card fresh-opportunity"><button type="button" data-action="offer" data-id="'+esc(c.id)+'" class="fresh-opportunity-main"><div class="feature-image">'+img(c.image,c.title)+'</div><div class="feature-body"><div class="feature-overline"><span class="eyeline">'+esc(b.name)+' · '+esc(c.neighborhood)+'</span><span class="fresh-flag">NEW TODAY · DEMO</span></div><h3>'+esc(c.title)+'</h3><div class="fresh-meta"><span>3 creator spots</span><span>Claim, visit within 7 days</span></div></div></button>'+briefPreview(c)+'</article>'}
 function briefPreview(c){return '<div class="fresh-brief"><div class="fresh-brief-head"><strong>What the restaurant wants</strong><span>THE BRIEF</span></div><p>'+esc(c.brief)+'</p><div class="fresh-brief-footer"><span>One original TikTok or Reel · Disclose your covered visit</span>'+btn("Read brief ↗","offer",c.id,"brief-inline-action")+'</div></div>'}
 function smallCard(c){const b=business(c.businessId);return '<article class="offer-card"><div class="small-image">'+img(c.image,c.title)+'</div><div class="offer-body"><div class="eyeline">'+esc(c.neighborhood)+' · '+esc(b.name)+'</div>'+(c.duo?'<span class="duo-label">✳ YOU + A FRIEND</span>':'<span class="solo-label">SOLO</span>')+'<h3>'+esc(c.title)+'</h3><p class="card-summary">'+esc(c.reward)+' · '+esc(capacity(c))+'</p>'+btn("View offer →","offer",c.id,"button text")+'</div></article>'}
-const inspirationClips=[
- {id:"clip-coffee",business:"The Nitro Bar",area:"Providence",creator:"@pvd.coffeeclub",title:"The iced coffee run",caption:"When the coffee is the whole plan ☕",poster:PHOTO.nitroCoffee,src:"https://assets.mixkit.co/videos/preview/mixkit-cup-being-filled-with-coffee-in-a-coffee-machine-41865-large.mp4",source:"https://mixkit.co/free-stock-video/cup-being-filled-with-coffee-in-a-coffee-machine-41865/"},
- {id:"clip-pour",business:"Espresso by Strive",area:"Elmhurst",creator:"@aroundpvd",title:"A slow morning pour",caption:"Five seconds of coffee heaven.",poster:PHOTO.espressoReal,src:"https://assets.mixkit.co/videos/preview/mixkit-mug-with-sparkling-cappuccino-5072-large.mp4",source:"https://mixkit.co/free-stock-video/mug-with-sparkling-cappuccino-5072/"},
- {id:"clip-brew",business:"Poppy Table",area:"Federal Hill",creator:"@weekendpvd",title:"Coffee & pastry day",caption:"The kind of weekend we love.",poster:PHOTO.poppyBakery,src:"https://assets.mixkit.co/videos/preview/mixkit-pouring-coffee-grounds-into-a-chemex-filter-100343-large.mp4",source:"https://mixkit.co/free-stock-video/pouring-coffee-grounds-into-a-chemex-filter-100343/"}
-];
-function forYou(){return '<section class="page reel-feed">'+heading("VIDEOS FROM AROUND TOWN","For You","Watch food & café inspiration from around Providence.")+
- '<div class="reels-intro"><span>▶ VIDEO FEED</span><span>Tap play · Scroll for more</span></div>'+
- inspirationClips.map((v,i)=>'<article class="reel-card"><div class="reel-stage">'+
- '<div class="reel-poster">'+img(v.poster,v.title)+'</div>'+
- '<video class="reel-video" controls playsinline preload="metadata" poster="'+esc(v.poster)+'" aria-label="'+esc(v.title)+'" '+(i===0?'':'')+'><source src="'+esc(v.src)+'" type="video/mp4">Video playback is unavailable.</video>'+
- '<div class="reel-float"><span class="reel-label">DEMO VIDEO</span><div class="reel-actions">'+
- btn(state.likedVideos.includes(v.id)?"♥":"♡","like-inspo",v.id,"reel-icon")+btn(state.savedVideos.includes(v.id)?"▣":"▢","save-inspo",v.id,"reel-icon")+
- '</div></div></div>'+
- '<div class="reel-caption"><div class="reel-author"><div class="reel-avatar">✳</div><div><b>'+esc(v.creator)+'</b><span>'+esc(v.business)+' · '+esc(v.area)+'</span></div></div>'+
- '<h3>'+esc(v.title)+'</h3><p>'+esc(v.caption)+'</p><a href="'+esc(v.source)+'" target="_blank" rel="noopener noreferrer">View original sample footage ↗</a></div></article>').join("")+
- '<p class="reels-disclaimer">These playable stock video examples demonstrate the feed design. They are not uploads from Fuse creators or endorsements by the pictured businesses.</p></section>';}
+function extractTikTok(url){
+ try{const parsed=new URL(String(url).trim());const host=parsed.hostname.toLowerCase();
+ if(!["tiktok.com","www.tiktok.com","m.tiktok.com","vm.tiktok.com","vt.tiktok.com"].includes(host))return null;
+ const match=parsed.pathname.match(/\/(?:video|player\/v1)\/(\d{10,25})(?:\/|$)/);
+ if(!match)return null;
+ return {id:match[1],url:"https://www.tiktok.com/player/v1/"+match[1]+"?controls=1&description=1&music_info=1",original:parsed.href};
+ }catch{return null;}
+}
+function videoForm(){
+ return '<form data-form="add-tiktok" class="tiktok-add-form">'+
+ '<div class="form-group"><label class="label" for="tiktokLink">TikTok video link</label><input class="field" id="tiktokLink" name="url" placeholder="https://www.tiktok.com/@creator/video/..." type="url" required/></div>'+
+ '<div class="form-group"><label class="label" for="tiktokTitle">Video caption / title</label><input class="field" id="tiktokTitle" name="title" maxlength="100" placeholder="Best coffee stop in Providence" required/></div>'+
+ '<div class="form-row"><div class="form-group"><label class="label" for="tiktokCreator">Creator @username</label><input class="field" id="tiktokCreator" name="creator" maxlength="50" placeholder="@creator" required/></div>'+
+ '<div class="form-group"><label class="label" for="tiktokPlace">Restaurant / place</label><input class="field" id="tiktokPlace" name="place" maxlength="80" placeholder="The Nitro Bar" required/></div></div>'+
+ '<div class="form-group"><label class="label" for="tiktokCategory">Where should this appear?</label><select class="field" name="category" id="tiktokCategory"><option value="town">My Town — Providence</option><option value="friend">Friends — creator video</option><option value="general">For You — general inspiration</option></select></div>'+
+ '<button class="button full" type="submit">Add TikTok to Fuse →</button><p class="fine-print">Paste the full TikTok link with /video/ and its video ID. Fuse embeds the original TikTok player, with attribution. Saved links are local to this browser, not imported into real users’ accounts.</p></form>';
+}
+function addTikTok(form){
+ const raw=String(form.get("url")||"").trim(),info=extractTikTok(raw);
+ if(!info)return toast("Paste the full TikTok share URL containing /video/ and a video ID.");
+ const title=String(form.get("title")||"").trim(),creator=String(form.get("creator")||"").trim(),place=String(form.get("place")||"").trim();
+ const category=String(form.get("category")||"town");
+ if(!title||!creator||!place||!["town","friend","general"].includes(category))return toast("Fill in the video details.");
+ if(state.tiktokPosts.some(v=>v.videoId===info.id))return toast("That TikTok has already been added.");
+ state.tiktokPosts.unshift({id:uid(),videoId:info.id,url:info.original,title,creator:creator.startsWith("@")?creator:"@"+creator,place,category,createdAt:new Date().toISOString()});
+ state.tiktokFeed=category==="general"?"forYou":category;persist();render();toast("TikTok added! Open the original video to watch.");
+}
+function videoCardEmbed(v){
+ const player=extractTikTok(v.url);if(!player)return "";
+ return '<article class="tiktok-embed-card"><div class="tiktok-info"><div><span class="eyebrow">'+(v.category==="town"?"PROVIDENCE VIDEO":v.category==="friend"?"FRIEND VIDEO":"FOR YOU")+'</span><h3>'+esc(v.title)+'</h3><p>'+esc(v.creator)+' · '+esc(v.place)+'</p></div>'+btn("×","delete-tiktok",v.id,"tiktok-remove","aria-label=\"Remove video\"")+'</div>'+
+ '<div class="tiktok-frame"><iframe loading="lazy" title="'+esc("TikTok: "+v.title)+'" src="'+esc(player.url)+'" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe></div>'+
+ '<div class="tiktok-footer"><a target="_blank" rel="noopener noreferrer" href="'+esc(v.url)+'">Open original on TikTok ↗</a><span>Hosted by TikTok</span></div></article>';
+}
+function forYou(){
+ const choices=[["forYou","For You"],["town","My Town"],["friend","Friends"]];
+ const posts=state.tiktokPosts.filter(v=>state.tiktokFeed==="forYou"||v.category===state.tiktokFeed);
+ return '<section class="page tiktok-hub">'+heading("REAL TIKTOKS","Videos worth watching.","Find inspiration from your town, people you follow, or anywhere.")+
+ '<div class="tiktok-filter-tabs">'+choices.map(([id,label])=>btn(label,"video-filter",id,"tiktok-filter"+(state.tiktokFeed===id?" active":""))).join("")+'</div>'+
+ '<div class="tiktok-tool-head"><div><strong>'+({town:"My Town · Providence",friend:"Friends’ videos",forYou:"Your For You collection"}[state.tiktokFeed]||"For You")+'</strong><p>Paste TikToks you find and watch them here.</p></div>'+btn("+ Add video","add-tiktok","","button tiny")+'</div>'+
+ (posts.length?'<div class="tiktok-video-list">'+posts.map(videoCardEmbed).join("")+'</div>':'<div class="tiktok-empty"><span>▶</span><h3>No videos here yet.</h3><p>Add a TikTok link to start building this feed. My Town is for Providence, Friends is for videos shared by friends, and For You can be anything.</p>'+btn("Add a TikTok video","add-tiktok","","button")+'</div>')+
+ '<div class="tiktok-demo-notice">TikTok videos are hosted by their original creators. Fuse does not automatically discover videos, verify friendships, or collect engagement data from links.</div></section>';
+}
 const community=[
  {id:"leo",name:"Leo Park",handle:"@leo.pvd",school:"Rhode Island College",area:"College Hill",tags:"Coffee · lunch",initials:"LP"},
  {id:"emma",name:"Emma Rizzo",handle:"@emmarizzo",school:"Providence College",area:"Elmhurst",tags:"Brunch · cafés",initials:"ER"},
@@ -252,8 +278,9 @@ function attachTikTokVideo(id){
 }
 async function loadTikTokFeed(){const el=$("#tiktokFeed");if(!el)return;try{const r=await fetch("/api/tiktok/videos",{credentials:"same-origin"});if(r.status===401){el.innerHTML='<p class="small muted">Not connected yet. Authorize TikTok from Profile, or paste your post link in My visits.</p>';return;}if(!r.ok)throw Error("TikTok is unavailable");const json=await r.json();const videos=Array.isArray(json.videos)?json.videos:[];authorizedTikToks=videos;el.innerHTML=videos.length?videos.slice(0,12).map(v=>'<div class="video-card"><div class="flex"><div class="video-thumb">'+img(v.cover_image_url||PHOTO.coffee,v.title||"TikTok video")+'</div><div><h4>'+esc(v.title||"My TikTok")+'</h4><p class="tiny-muted">'+fmt(v.view_count||0)+' views · '+fmt(v.like_count||0)+' likes</p><a href="'+esc(v.share_url)+'" target="_blank" rel="noopener noreferrer" class="button text">Watch on TikTok ↗</a>'+btn("Use for a visit","attach-tiktok",v.id,"button secondary tiny")+'</div></div></div>').join(""):'<p class="small muted">No public TikTok uploads found on this connected account.</p>'; }catch{el.innerHTML='<p class="small muted">TikTok videos are unavailable right now. You can still submit a video URL in My visits.</p>';}}
 function doAction(action,id){switch(action){
-case"like-inspo":state.likedVideos=state.likedVideos.includes(id)?state.likedVideos.filter(x=>x!==id):[...state.likedVideos,id];persist();render();return;
-case"save-inspo":state.savedVideos=state.savedVideos.includes(id)?state.savedVideos.filter(x=>x!==id):[...state.savedVideos,id];persist();render();toast(state.savedVideos.includes(id)?"Video saved to your demo collection.":"Removed from saved videos.");return;
+case"video-filter":state.tiktokFeed=id;persist();render();return;
+case"add-tiktok":formModal("Add a TikTok to Fuse",videoForm(),"Done",()=>closeModal());$("#modalContent").innerHTML=videoForm();return;
+case"delete-tiktok":state.tiktokPosts=state.tiktokPosts.filter(v=>v.id!==id);persist();render();toast("Video removed from this browser.");return;
 case"show-explore":return goTab("explore");
 case"content-section":state.contentSection=id;render();return;
 case"friend-section":state.friendsSection=id;render();return;
@@ -294,7 +321,7 @@ case"simulate-overdue":{let a=state.claims.find(x=>x.studentId===state.activeStu
 document.addEventListener("click",e=>{const a=e.target.closest("[data-action],[data-tab]");if(!a)return;if(a.dataset.tab)return goTab(a.dataset.tab);if(a.dataset.action)doAction(a.dataset.action,a.dataset.id)});
 document.addEventListener("change",e=>{if(e.target?.id==="businessSelect"){state.selectedBusiness=e.target.value;persist();render();}});
 document.addEventListener("input",e=>{if(e.target?.id!=="friendSearch")return;const q=e.target.value.trim().toLowerCase();const chosen=community.filter(x=>(state.friendsSection!=="mine"||state.friends.includes(x.id))&&[x.name,x.handle,x.school,x.area,x.tags].join(" ").toLowerCase().includes(q));const target=$("#friendResults");if(target)target.innerHTML=chosen.length?chosen.map(friendCard).join(""):'<div class="empty">No creators match your search.</div>';});
-document.addEventListener("submit",e=>{const form=e.target.closest("[data-form]");if(!form)return;e.preventDefault();if(form.dataset.form==="post")submitPost(form.dataset.id,new FormData(form));if(form.dataset.form==="new-offer")createOffer(new FormData(form));if(form.dataset.form==="redeem")redeemCode(new FormData(form).get("code"))});
+document.addEventListener("submit",e=>{const form=e.target.closest("[data-form]");if(!form)return;e.preventDefault();if(form.dataset.form==="post")submitPost(form.dataset.id,new FormData(form));if(form.dataset.form==="new-offer")createOffer(new FormData(form));if(form.dataset.form==="redeem")redeemCode(new FormData(form).get("code"));if(form.dataset.form==="add-tiktok"){addTikTok(new FormData(form));closeModal()}});
 $("#roleSwitch").addEventListener("click",()=>{state.role=state.role==="student"?"business":"student";state.detail=null;state.tab=state.role==="student"?"explore":"overview";persist();render();$("#content").scrollTop=0});
 $("#resetDemo").addEventListener("click",()=>{if(!confirm("Reset all demo claims, submissions, and offers?"))return;state=seed();persist();render();$("#content").scrollTop=0;toast("Demo reset to the starting state.")});
 $("#closeModal").addEventListener("click",closeModal);
