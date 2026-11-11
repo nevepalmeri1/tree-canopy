@@ -405,3 +405,23 @@ body,.phone,.explore-page{background:#f8faf6!important}
 .detail-content .inspo-gallery{margin-top:33px;border-top:1px solid #e3e9e1;padding-top:7px}
 .detail-content .inspo-gallery .section-heading h2{font-size:21px}
 @media(max-width:380px){.founder-inspo-card{width:min(245px,78vw)}.founder-inspo-media{height:325px}}
+
+/* Make user-supplied real TikToks visible before the map, with clear one-tap playback */
+.explore-page>.inspo-gallery{margin:24px 0 25px;padding:18px 0 4px;border-top:1px solid #e3e9e1;border-bottom:1px solid #e3e9e1}
+.inspo-gallery .section-heading{margin:5px 0 8px}
+.inspo-gallery .section-heading h2{font-size:25px;font-family:"DM Sans",sans-serif;font-weight:800;letter-spacing:-.7px;color:#19244c}
+.inspo-gallery .section-heading span{color:#3f573b;background:#e9f8d0;border-radius:20px;padding:5px 9px;font-weight:800}
+.inspo-gallery .small{font-size:12px;color:#657489;line-height:1.55}
+.inspo-scroll{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:7px 1px 11px}
+.founder-inspo-card{width:min(250px,75vw);border:1px solid #dfe7dd;border-radius:17px;box-shadow:0 6px 15px #1e345910}
+.founder-inspo-media{height:335px;min-height:335px;background:#172043}
+.inspo-fallback{background:#19244b;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:20px}
+.inspo-tiktok-logo{font-size:56px;line-height:1;color:#c7fb43}
+.inspo-fallback strong{font-size:18px;font-weight:850;color:#fff}
+.inspo-fallback p{font-size:12px;line-height:1.5;color:#d9e2f1;margin:6px 0 12px;text-align:center}
+.inspo-fallback .inspo-watch-btn{display:block;font-size:12px;font-weight:850;text-decoration:none;color:#14214b!important;background:#c7fb43;padding:12px 16px;border-radius:11px;white-space:nowrap}
+.inspo-fallback .inspo-watch-btn:hover{background:#d8ff7f}
+.inspo-swipe-hint{font-size:10px;font-weight:800;color:#4f6385;text-align:center;letter-spacing:.1px;margin:2px 0 14px}
+.inspo-gallery .founder-inspo-copy{padding:14px}
+.inspo-gallery .founder-inspo-copy h3{font-size:14px}
+.inspo-gallery .inspo-actions{margin-top:10px}
