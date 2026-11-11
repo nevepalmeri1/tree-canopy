@@ -77,3 +77,25 @@ Brand palette: neon lime (`#C7FB43`), midnight indigo (`#202459`), pale neutral 
 - This is intentionally **demo-only**. Browser localStorage is not shared between different users or devices; the restaurant and creator must use the same demo browser to see each other's claims. Codes are not secure tickets and cannot actually authorize a complimentary meal. A production system needs authenticated accounts, server-side code issuance and redemption, database transactions, merchant authorization and fraud prevention.
 
 The existing TikTok developer approval/credential requirements still apply. Until connected, the creator can paste a published post URL manually after the demo QR check-in.
+
+## Explore, For You and Friends visual polish
+
+- Logo's neon-green asterisk is positioned **to the right** of the white F inside the midnight icon.
+- Explore uses exclusively midnight/navy and neon-lime accents to match the mark (not the old purple highlights). The featured offer is itself a keyboard-accessible, tappable card; oversized full-width **See the offer** button removed.
+- The Providence map is **shown by default**, below the featured card and above **Worth checking out**. Map pins use neon-lime.
+- Dinner on Admiral Street is second among the six highlighted offers.
+- The Nitro Bar offer uses a real iced-coffee photo sourced from a third-party business review photo; Poppy Table (fictional) uses a real bakery pastry-display photo sourced from Pexels. Remote image failures try backup photos before falling back to an illustration.
+- For You is now a **vertical, playable video feed**, with video controls, save and like demo interactions, and descriptive captions. Video clips are *sample stock footage from Mixkit*, **not actual creator videos or videos of the named restaurants**. If video hosting is unavailable, the visual poster remains and an original sample-footage link is provided. Do not attribute sample stock footage to real merchants or creators.
+- Friends shows example **restaurants friends visited** and content notes first, then searchable creators and add/remove friend controls. All friend visits are illustrative demo data, not actual activity.
+- Existing business and creator offer claims, QR redemption, video submission and analytics remain browser-local demo workflows.
+
+Video source pages:
+- https://mixkit.co/free-stock-video/cup-being-filled-with-coffee-in-a-coffee-machine-41865/
+- https://mixkit.co/free-stock-video/mug-with-sparkling-cappuccino-5072/
+- https://mixkit.co/free-stock-video/pouring-coffee-grounds-into-a-chemex-filter-100343/
+
+Image reference:
+- Poppy bakery-display photo: https://www.pexels.com/photo/a-variety-of-breads-and-pastries-on-a-glass-display-counter-7405059/
+- Nitro Bar coffee photo: https://www.corner.inc/place/8720
+
+Confirm commercial rights and asset reliability before launching with actual businesses. Real named merchants have **not** agreed to join FuseGenerated.
