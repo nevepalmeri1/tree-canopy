@@ -371,3 +371,10 @@ body,.phone,.explore-page{background:#f8faf6!important}
 .brief-detail-grid b{font-size:11px;color:#2a385a}
 .brief-detail-grid p{margin:4px 0 0;color:#61718a;font-size:12px;line-height:1.55}
 @media(max-width:420px){.tiktok-frame{height:440px}.tiktok-filter{padding:9px 9px;font-size:10px}.fresh-opportunity-main .feature-image{height:170px}.fresh-opportunity-main .feature-body h3{font-size:22px}}
+
+.friends-tiktok-empty{background:#fff;border:1px solid #e1e8e1;border-radius:17px;padding:19px;margin:10px 0 20px}
+.friends-tiktok-empty h3{font-size:17px;font-weight:800;color:#1d2c4c;margin:0 0 7px}
+.friends-tiktok-empty p{font-size:12px;color:#67778b;line-height:1.6}
+.friends-tiktok-empty .button{font-size:11px;min-height:39px}
+.friends-page .tiktok-video-list{margin:12px 0 25px}
+.friends-page .tiktok-frame{height:430px}
