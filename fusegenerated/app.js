@@ -171,7 +171,7 @@ const community=[
  {id:"mia",name:"Mia Torres",handle:"@miatorres",school:"Johnson & Wales",area:"Federal Hill",tags:"Restaurants · recipes",initials:"MT"}
 ];
 const friendVisits=[
- {creator:"Leo Park",handle:"@leo.pvd",restaurant:"Juniper & Rye",campaign:"past2",title:"A slow Sunday brunch",when:"Visited last month",note:"Posted an Instagram Reel · 3.1k demo views"},
+ {creator:"Leo Park",handle:"@leo.pvd",restaurant:"The Nitro Bar",campaign:"nitro",title:"A coffee stop in Fox Point",when:"Recent pick · demo",note:"Shared a coffee recommendation · demo content"},
  {creator:"Emma Rizzo",handle:"@emmarizzo",restaurant:"Poppy Table",campaign:"pastry",title:"A little bakery find",when:"Weekend pick",note:"Saved this spot for coffee and pastries"},
  {creator:"Sofia Chen",handle:"@sofia.ri",restaurant:"Strive Kitchen + Bar",campaign:"strive",title:"Dinner on Admiral Street",when:"Local favorite",note:"Shared a dinner recommendation"}
 ];
