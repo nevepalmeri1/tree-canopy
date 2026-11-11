@@ -1,0 +1,74 @@
+"use strict";
+// Curated creator inspiration is intentionally separate from the public TikTok friend feed.
+// All founder-supplied links are unassigned until the demo user identifies the restaurant.
+(function(){
+  const originalExplore=explore,originalOffer=offerDetail,originalRender=render;
+  const getVideos=()=>[...founderInspo,...(Array.isArray(state.inspoExtras)?state.inspoExtras:[])];
+  const selection=id=>(state.inspoAssignments||{})[id]||"";
+  function card(v){
+    const meta=inspirationCache[v.id]||{};
+    const media=meta.id?'<iframe loading="lazy" title="Original TikTok example" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" src="https://www.tiktok.com/player/v1/'+esc(meta.id)+'?controls=1&description=1"></iframe>':
+      '<div class="inspo-fallback"><span>▶</span><p>'+(meta.status==="unavailable"?"Preview unavailable — original link still works":"TikTok preview loading…")+'</p><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open original TikTok ↗</a></div>';
+    return '<article class="founder-inspo-card" data-inspo-id="'+esc(v.id)+'"><div class="founder-inspo-media">'+media+'</div><div class="founder-inspo-copy"><span class="eyebrow">REAL TIKTOK EXAMPLE</span><h3>'+esc(meta.title||"Creator video inspiration")+'</h3><p>'+esc(meta.author||"Original creator — not verified")+'</p><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open on TikTok ↗</a>'+
+      '<label class="label" for="assign-'+esc(v.id)+'">Match with a restaurant</label><select class="field" data-inspo-assign="'+esc(v.id)+'" id="assign-'+esc(v.id)+'"><option value="">Not assigned yet</option>'+state.businesses.map(b=>'<option value="'+esc(b.id)+'" '+(selection(v.id)===b.id?"selected":"")+'>'+esc(b.name)+'</option>').join("")+'</select></div></article>';
+  }
+  function gallery(restaurantId){
+    const videos=getVideos().filter(v=>!restaurantId||selection(v.id)===restaurantId);
+    return '<section class="inspo-gallery" id="inspiration"><div class="section-heading"><h2>Video inspiration</h2><span>'+videos.length+' examples</span></div><p class="small muted">'+(restaurantId?"TikToks assigned to this restaurant to help with the creative brief.":"Five TikToks you shared. Review each example and connect it to a restaurant if relevant. We haven’t assumed which business or creator appears in any video.")+'</p>'+
+      (videos.length?'<div class="inspo-scroll">'+videos.map(card).join("")+'</div>':'<div class="inspo-empty">No videos assigned to this restaurant yet. Explore the full inspiration gallery to assign some.</div>')+
+      (!restaurantId?'<div class="inspo-actions"><button type="button" data-inspo-add class="button secondary">+ Add another TikTok</button></div>':'')+'</section>';
+  }
+  function insertBeforeFinalSection(html,fragment){
+    const idx=html.lastIndexOf("</section>");
+    return idx<0?html+fragment:html.slice(0,idx)+fragment+html.slice(idx);
+  }
+  explore=function(){return insertBeforeFinalSection(originalExplore(),gallery(null));};
+  offerDetail=function(id){const c=campaign(id);return c?insertBeforeFinalSection(originalOffer(id),gallery(c.businessId)):originalOffer(id);};
+  render=function(){originalRender();if((state.tab==="explore"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
+  const taskCache={};
+  async function resolveOne(v){
+    if(taskCache[v.id])return taskCache[v.id];
+    taskCache[v.id]=(async()=>{let data={status:"unavailable"};try{
+      const r=await fetch("/api/tiktok/resolve?url="+encodeURIComponent(v.url),{credentials:"same-origin"});
+      if(!r.ok)throw Error("TikTok metadata unavailable");
+      const j=await r.json();
+      if(!/^\d{10,25}$/.test(String(j.id||"")))throw Error("Missing video ID");
+      data={status:"ready",id:String(j.id),title:String(j.title||"TikTok example"),author:String(j.author||"TikTok creator")};
+    }catch{}
+    inspirationCache[v.id]=data;
+    const existing=document.querySelector('[data-inspo-id="'+v.id+'"]');
+    if(existing){const holder=document.createElement("div");holder.innerHTML=card(v);if(holder.firstElementChild)existing.replaceWith(holder.firstElementChild);}
+    return data;})();
+    return taskCache[v.id];
+  }
+  function resolveVisible(){
+    const ids=[...document.querySelectorAll("[data-inspo-id]")].map(n=>n.getAttribute("data-inspo-id"));
+    for(const v of getVideos())if(ids.includes(v.id)&&!inspirationCache[v.id])resolveOne(v);
+  }
+  function acceptURL(value){try{
+    const parsed=new URL(value);const host=parsed.hostname.toLowerCase();
+    if(parsed.protocol!=="https:"||!["www.tiktok.com","tiktok.com","m.tiktok.com","vm.tiktok.com","vt.tiktok.com"].includes(host))return null;
+    if(!(/^\/t\/[A-Za-z0-9]+\/?$/.test(parsed.pathname)||/^\/@[^/]+\/video\/\d{10,25}\/?$/.test(parsed.pathname)))return null;
+    return parsed.href;
+  }catch{return null;}}
+  function showAdd(){
+    $("#modalTitle").textContent="Add TikTok inspiration";
+    $("#modalContent").innerHTML='<p class="small muted">Paste a TikTok you’d like creators to learn from. You can assign it to a restaurant after watching.</p><form data-form="inspo-add"><div class="form-group"><label for="inspo-link" class="label">TikTok video URL</label><input class="field" id="inspo-link" name="link" required type="url" placeholder="https://www.tiktok.com/t/..."></div><button class="button full" type="submit">Add video</button></form>';
+    $("#modal").showModal();
+  }
+  document.addEventListener("click",e=>{const node=e.target.closest("[data-inspo-add]");if(node){e.preventDefault();e.stopImmediatePropagation();showAdd();}},true);
+  document.addEventListener("change",e=>{if(!e.target.matches("[data-inspo-assign]"))return;
+    if(!state.inspoAssignments)state.inspoAssignments={};
+    state.inspoAssignments[e.target.dataset.inspoAssign]=e.target.value;
+    persist();toast(e.target.value?"Saved as restaurant inspiration.":"Restaurant association cleared.");
+  });
+  document.addEventListener("submit",e=>{if(!e.target.matches('[data-form="inspo-add"]'))return;
+    e.preventDefault();e.stopImmediatePropagation();
+    const url=acceptURL(String(new FormData(e.target).get("link")||"").trim());
+    if(!url)return toast("Use a TikTok post or TikTok short share link.");
+    if(getVideos().some(x=>x.url===url))return toast("That video is already in inspiration.");
+    if(!Array.isArray(state.inspoExtras))state.inspoExtras=[];
+    state.inspoExtras.push({id:uid(),url});persist();$("#modal").close();goTab("explore");toast("TikTok added.");
+  },true);
+  render();
+})();
