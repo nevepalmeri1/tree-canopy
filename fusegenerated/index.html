@@ -1,8 +1,17 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f7f5ef"><title>FuseGenerated — campus creativity, unlocked</title><link rel="stylesheet" href="./styles.css"></head>
-<body><div id="app">
-<header class="topbar"><a class="wordmark" href="#discover" aria-label="FuseGenerated home"><span class="mark">f<span>✳</span></span> fuse<span class="muted">generated</span><span class="period">.</span></a><div class="nav-right"><span class="tag desktop">THE CAMPUS CREATOR NETWORK</span><button class="role-switch" id="roleSwitch" type="button" aria-label="Switch role">Creator view ⇄</button><button class="avatar" id="profileButton" aria-label="Open profile">FG</button></div></header>
-<div class="app-shell"><aside class="sidebar" aria-label="Main navigation"><p class="eyebrow">WORKSPACE</p><nav id="sidebarNav"></nav><div class="sidebar-bottom"><div class="sidebar-note"><span class="note-icon">✳</span><strong>Real work. Real proof.</strong><p>Your next opportunity is one click away.</p></div><span class="small">FuseGenerated · MVP preview</span></div></aside><main id="content" class="content" tabindex="-1"></main></div>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<dialog id="modal"><form id="modalForm" method="dialog"><div class="modal-head"><h2 id="modalTitle"></h2><button type="button" id="closeModal" class="ghost">✕</button></div><div id="modalBody"></div><div class="modal-actions"><button type="button" id="cancelModal" class="secondary">Cancel</button><button type="submit" class="primary" id="modalSubmit">Save</button></div></form></dialog>
-</div><script src="./app.js" defer></script></body></html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><meta name="theme-color" content="#F8F5EF"/><meta name="description" content="Discover Providence through the people who live here. Local meals, real student videos."/><title>FuseGenerated — Around Providence</title><link rel="preconnect" href="https://images.unsplash.com"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,500,0,1;9..144,600,0,1;9..144,700,0,1&display=swap" rel="stylesheet"/><link rel="stylesheet" href="./styles.css"/></head>
+<body>
+<div class="canvas"><div class="desktop-caption"><span class="caption-star">✳</span><p class="eyebrow">PROVIDENCE, RHODE ISLAND</p><h1>Good places.<br/>Real people.<br/><em>Better stories.</em></h1><p>Local discovery, made by the students actually exploring the city.</p><div class="caption-rule"></div><small>FUSEGENERATED / INTERACTIVE PILOT</small></div>
+<div class="phone" id="app">
+<header class="app-header"><div class="brand"><span class="brand-mark">f<span>✳</span></span><span>fuse<span class="brand-muted">generated</span><b>.</b></span></div><button class="switch" id="roleSwitch" type="button" aria-label="Switch between student and business views">Student <span>⇄</span></button></header>
+<div class="demo-strip"><span><i class="live-dot"></i> CLICKABLE DEMO · FICTIONAL BUSINESSES</span><button id="resetDemo" type="button">↺ Reset</button></div>
+<main id="content" tabindex="-1"></main>
+<nav id="bottomNav" class="bottom-nav" aria-label="Main navigation"></nav>
+</div>
+<div class="desktop-note"><span>01 / DISCOVER</span><span>02 / CREATE</span><span>03 / SEE RESULTS</span></div>
+</div>
+<div id="toast" role="status" aria-live="polite" class="toast"></div>
+<dialog id="modal"><div class="modal-header"><h2 id="modalTitle"></h2><button type="button" id="closeModal" aria-label="Close dialog">×</button></div><div id="modalContent"></div></dialog>
+<script src="./app.js" defer></script>
+</body></html>
