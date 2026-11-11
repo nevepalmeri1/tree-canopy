@@ -2,7 +2,7 @@
 // Curated creator inspiration is intentionally separate from the public TikTok friend feed.
 // All founder-supplied links are unassigned until the demo user identifies the restaurant.
 (function(){
-  const originalExplore=explore,originalOffer=offerDetail,originalRender=render;
+  const originalExplore=explore,originalOffer=offerDetail,originalFriends=friends,originalRender=render;
   const getVideos=()=>[...founderInspo,...(Array.isArray(state.inspoExtras)?state.inspoExtras:[])];
   const selection=id=>(state.inspoAssignments||{})[id]||"";
   function card(v){
@@ -19,7 +19,7 @@
   }
   function gallery(restaurantId){
     const videos=getVideos().filter(v=>!restaurantId||selection(v.id)===restaurantId);
-    return '<section class="inspo-gallery" id="inspiration"><div class="section-heading"><h2>Your TikTok videos</h2><span>'+videos.length+' examples</span></div><p class="small muted">'+(restaurantId?"TikToks assigned to this restaurant to help with the creative brief.":"These are the five actual TikTok links you sent. Tap Watch actual TikTok to see each original. Swipe through the examples, then link any video to a restaurant if it fits.")+'</p>'+
+    return '<section class="inspo-gallery" id="inspiration"><div class="section-heading"><h2>Video examples</h2><span>'+videos.length+' examples</span></div><p class="small muted">'+(restaurantId?"TikToks assigned to this restaurant to help with the creative brief.":"Your five imported TikToks. They are not yet verified posts from Fuse friends. Tap a cover to watch the original video.")+'</p>'+
       (videos.length?'<div class="inspo-scroll">'+videos.map(card).join("")+'</div><p class="inspo-swipe-hint">← Swipe to see all five videos →</p>':'<div class="inspo-empty">No videos assigned to this restaurant yet. Explore the full inspiration gallery to assign some.</div>')+
       (!restaurantId?'<div class="inspo-actions"><button type="button" data-inspo-add class="button secondary">+ Add another TikTok</button></div>':'')+'</section>';
   }
@@ -27,9 +27,16 @@
     const idx=html.lastIndexOf("</section>");
     return idx<0?html+fragment:html.slice(0,idx)+fragment+html.slice(idx);
   }
-  explore=function(){const html=originalExplore();const needle='<div class="section-heading map-section-heading">';return html.includes(needle)?html.replace(needle,gallery(null)+needle):insertBeforeFinalSection(html,gallery(null));};
+  explore=originalExplore;
+  friends=function(){
+    const html=originalFriends(),marker='<div class="section-heading"><h2>Where friends went</h2>';
+    const end=html.indexOf(marker),empty=html.indexOf('<div class="friends-tiktok-empty">');
+    if(end<0)return insertBeforeFinalSection(html,gallery(null));
+    if(empty>=0&&empty<end)return html.slice(0,empty)+gallery(null)+html.slice(end);
+    return html.slice(0,end)+gallery(null)+html.slice(end);
+  };
   offerDetail=function(id){const c=campaign(id);return c?insertBeforeFinalSection(originalOffer(id),gallery(c.businessId)):originalOffer(id);};
-  render=function(){originalRender();if((state.tab==="explore"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
+  render=function(){originalRender();if((state.tab==="friends"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
   const taskCache={};
   async function resolveOne(v){
     if(taskCache[v.id])return taskCache[v.id];
