@@ -18,6 +18,22 @@
     return '<article class="founder-inspo-card" data-inspo-id="'+esc(v.id)+'"><div class="founder-inspo-media">'+media+'</div><div class="founder-inspo-copy"><span class="eyebrow">REAL TIKTOK EXAMPLE</span><h3>'+esc(meta.title||"Creator video inspiration")+'</h3><p>'+esc(meta.author||"Original creator — not verified")+'</p><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open on TikTok ↗</a>'+
       '<label class="label" for="assign-'+esc(v.id)+'">Match with a restaurant</label><select class="field" data-inspo-assign="'+esc(v.id)+'" id="assign-'+esc(v.id)+'"><option value="">Not assigned yet</option>'+state.businesses.filter(b=>b.id!=="juniper").map(b=>'<option value="'+esc(b.id)+'" '+(selection(v.id)===b.id?"selected":"")+'>'+esc(b.name)+'</option>').join("")+'</select></div></article>';
   }
+  function linkedPlacesHTML(){
+    const matches=getVideos().filter(v=>{const id=selection(v.id);return id&&state.businesses.some(b=>b.id===id&&b.id!=="juniper");});
+    if(!matches.length)return '<div class="friends-where-empty"><p>No restaurants linked yet.</p><p>Use <strong>Match with a restaurant</strong> under one of the TikToks above. As you assign videos, the matching restaurant and the same video will appear here.</p></div>';
+    return matches.map(v=>{
+      const b=business(selection(v.id)),meta=inspirationCache[v.id]||{},i=founderInspo.findIndex(x=>x.id===v.id);
+      const title=meta.title||"Imported TikTok "+(i>=0?i+1:"video");
+      const cover=meta.thumbnail&&/^https:\/\//.test(meta.thumbnail)?
+        '<img loading="lazy" referrerpolicy="no-referrer" src="'+esc(meta.thumbnail)+'" alt="'+esc(title+" cover")+'">':
+        '<span class="friend-where-placeholder">▶</span>';
+      return '<article class="friend-where-linked" data-linked-video="'+esc(v.id)+'"><a class="friend-where-cover" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Watch video from '+esc(b.name)+'">'+cover+'</a><div class="friend-where-info"><p class="eyebrow">TAGGED FROM VIDEO '+(i>=0?i+1:"")+'</p><h3>'+esc(b.name)+'</h3><p class="friend-where-location">'+esc(b.neighborhood)+'</p><p class="friend-where-video-title">'+esc(title)+'</p><a class="friend-where-action" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Watch matching TikTok ↗</a></div></article>';
+    }).join("");
+  }
+  function refreshLinkedPlaces(){
+    const section=document.querySelector("#whereFriendsWent");
+    if(section)section.innerHTML=linkedPlacesHTML();
+  }
   function gallery(restaurantId){
     const videos=getVideos().filter(v=>!restaurantId||selection(v.id)===restaurantId);
     return '<section class="inspo-gallery" id="inspiration"><div class="section-heading"><h2>Video examples</h2><span>'+videos.length+' examples</span></div><p class="small muted">'+(restaurantId?"TikToks assigned to this restaurant to help with the creative brief.":"Your five imported TikToks. They are not yet verified posts from Fuse friends. Tap a cover to watch the original video.")+'</p>'+
@@ -37,7 +53,7 @@
     return html.slice(0,end)+gallery(null)+html.slice(end);
   };
   offerDetail=function(id){const c=campaign(id);return c?insertBeforeFinalSection(originalOffer(id),gallery(c.businessId)):originalOffer(id);};
-  render=function(){originalRender();if((state.tab==="friends"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
+  render=function(){originalRender();refreshLinkedPlaces();if((state.tab==="friends"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
   const taskCache={};
   async function resolveOne(v){
     if(taskCache[v.id])return taskCache[v.id];
@@ -49,6 +65,7 @@
       data={status:"ready",id:String(j.id),title:String(j.title||"TikTok example"),author:String(j.author||"TikTok creator"),thumbnail:typeof j.thumbnail==="string"&&j.thumbnail.startsWith("https://")?j.thumbnail:null};
     }catch{}
     inspirationCache[v.id]=data;
+    refreshLinkedPlaces();
     const existing=document.querySelector('[data-inspo-id="'+v.id+'"]');
     if(existing){const holder=document.createElement("div");holder.innerHTML=card(v);if(holder.firstElementChild)existing.replaceWith(holder.firstElementChild);}
     return data;})();
@@ -77,7 +94,7 @@
   document.addEventListener("change",e=>{if(!e.target.matches("[data-inspo-assign]"))return;
     if(!state.inspoAssignments)state.inspoAssignments={};
     state.inspoAssignments[e.target.dataset.inspoAssign]=e.target.value;
-    persist();toast(e.target.value?"Saved as restaurant inspiration.":"Restaurant association cleared.");
+    persist();refreshLinkedPlaces();toast(e.target.value?"Linked restaurant to this TikTok.":"Removed restaurant link.");
   });
   document.addEventListener("submit",e=>{if(!e.target.matches('[data-form="inspo-add"]'))return;
     e.preventDefault();e.stopImmediatePropagation();

@@ -173,3 +173,16 @@ TikTok reference: https://developers.tiktok.com/docs/en/embed-videos
 - **Covers:** Use TikTok oEmbed or alternate public metadata. If the video ID resolves without a cover image, use the original TikTok player as fallback; if not, offer the direct original link. No unrelated fake cover imagery.
 - **Backend:** Root repository JavaScript uses ESM, while Fuse TikTok functions are written in CommonJS. A new Fuse-specific package.json explicitly sets type to commonjs to avoid Vercel runtime module errors. Resolver also uses module.exports consistently with other TikTok routes.
 - This remains a local-browser prototype, without real shared accounts, verified TikTok followers or secure real-world meal redemption.
+
+## Friends: where people went follows the actual imported TikTok cards
+
+Friends now has one source of truth for its video cards and the restaurant section below them. Instead of hard-coded fictional "friends visited here" examples, **Where My Friends Went** displays only restaurants explicitly assigned to an imported TikTok via the **Match with a restaurant** dropdown under that same video.
+
+- Assign an example to Nitro and its corresponding restaurant card immediately appears below with a link to that exact original TikTok.
+- Reassign a video and the restaurant card changes instantly.
+- Clear the assignment and the associated place card disappears.
+- Cover and title metadata from the same TikTok are reused in the matching place card, when available; otherwise the card uses a neutral play icon, not an unrelated restaurant photograph.
+- If no videos have been assigned, an instruction explains how to connect them. No false visits are presented.
+- Directory creator cards no longer imply any particular restaurant visit independently from an actual linked video.
+
+This is a browser-local curation demo. Assigning a restaurant does not establish that a connected friend actually posted the clip or visited the restaurant. It means the curator chose that association after reviewing the original.

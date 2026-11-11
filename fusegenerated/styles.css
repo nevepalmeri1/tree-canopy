@@ -462,3 +462,21 @@ body,.phone,.explore-page{background:#f8faf6!important}
 .friends-page .inspo-gallery{margin:0 0 25px}
 .friends-page .inspo-gallery>.section-heading h2{font-size:24px}
 .friends-page .inspo-gallery .small{font-size:12px}
+
+/* Friend places are generated from the exact TikTok cards and their restaurant assignments. */
+#whereFriendsWent{display:grid;gap:12px;margin:13px 0 25px}
+.friend-where-linked{display:flex;gap:13px;align-items:center;background:#fff;border:1px solid #e1e8dd;border-radius:16px;padding:10px;box-shadow:0 5px 15px #152b4b0a}
+.friend-where-cover{width:102px;height:138px;border-radius:11px;flex:none;background:#1b284f;display:grid;place-items:center;overflow:hidden;text-decoration:none}
+.friend-where-cover img{width:100%;height:100%;object-fit:cover}
+.friend-where-placeholder{width:42px;height:42px;border-radius:50%;background:#c7fb43;color:#182448;display:grid;place-items:center;font-size:18px;padding-left:3px}
+.friend-where-info{min-width:0;flex:1}
+.friend-where-info>.eyebrow{font-size:9px;color:#61715e!important;margin:0 0 7px;line-height:1.4}
+.friend-where-info h3{font:700 20px/1.1 "Fraunces",serif;color:#1a2851;margin:0 0 5px}
+.friend-where-location{font-size:11px;color:#60718d;margin:0 0 8px}
+.friend-where-video-title{font-size:11px;color:#485b79;line-height:1.4;margin:0 0 11px}
+.friend-where-action{font-size:11px;font-weight:800;color:#253e74;text-decoration:underline;text-underline-offset:3px}
+.friends-where-empty{padding:22px 18px;background:#f2f6ed;border-radius:15px;border:1px dashed #cedcbe}
+.friends-where-empty p{margin:0 0 8px;color:#596a7e;font-size:12px;line-height:1.6}
+.friends-where-empty p:last-child{margin:0}
+.friends-where-empty strong{color:#1b2b52}
+@media(max-width:350px){.friend-where-cover{width:82px;height:117px}.friend-where-info h3{font-size:17px}}
