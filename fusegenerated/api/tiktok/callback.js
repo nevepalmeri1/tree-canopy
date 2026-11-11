@@ -1,0 +1,10 @@
+const crypto=require("node:crypto");const {STATE,configured,cookies,setSession}=require("./_session");
+module.exports=async function handler(req,res){res.setHeader("Cache-Control","no-store");if(req.method!=="GET")return res.status(405).end();if(!configured())return res.redirect(302,"/?tiktok=unavailable");
+const q=req.query||{};const expected=cookies(req)[STATE],provided=typeof q.state==="string"?q.state:"";res.setHeader("Set-Cookie",STATE+"=; HttpOnly; Secure; SameSite=Lax; Path=/api/tiktok; Max-Age=0");
+if(!expected||!provided||Buffer.byteLength(expected)!==Buffer.byteLength(provided)||!crypto.timingSafeEqual(Buffer.from(expected),Buffer.from(provided)))return res.status(403).send("TikTok authorization expired or invalid. Return to FuseGenerated and try again.");
+if(!q.code||q.error)return res.redirect(302,"/?tiktok=cancelled");
+try{const body=new URLSearchParams({client_key:process.env.TIKTOK_CLIENT_KEY,client_secret:process.env.TIKTOK_CLIENT_SECRET,code:String(q.code),grant_type:"authorization_code",redirect_uri:process.env.TIKTOK_REDIRECT_URI});
+const response=await fetch("https://open.tiktokapis.com/v2/oauth/token/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:body.toString()});
+const data=await response.json();if(!response.ok||!data.access_token||!String(data.scope||"").includes("video.list"))return res.redirect(302,"/?tiktok=scope");
+setSession(res,data);return res.redirect(302,"/?tiktok=connected");
+}catch{return res.redirect(302,"/?tiktok=error");}};
