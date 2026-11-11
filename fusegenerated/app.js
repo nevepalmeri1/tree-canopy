@@ -55,7 +55,7 @@ let toastTimeout;
 const $=s=>document.querySelector(s);
 const esc=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=n=>Number(n||0).toLocaleString("en-US");
-const uid=()=>crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2);
+const uid=()=>typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2);
 const business=id=>state.businesses.find(b=>b.id===id);
 const campaign=id=>state.campaigns.find(c=>c.id===id);
 const student=id=>state.students.find(s=>s.id===id);
