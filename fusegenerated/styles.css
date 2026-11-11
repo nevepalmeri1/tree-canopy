@@ -104,3 +104,109 @@ body{background:#e6e9f6}.phone{background:var(--paper);border-color:#d7dcef;box-
 #tiktokFeed .video-card .video-thumb{min-width:88px}
 .feature-image .photo-surface,.small-image .photo-surface{background:#ded9ee}
 @media(max-width:780px){.offer-card .small-image{width:125px;min-width:125px}.offer-body h3{font-size:17px}}
+
+/* FuseGenerated: high-contrast electric lime × midnight indigo */
+:root{
+ --paper:#f7f9f5;--paper2:#f0f3ef;--ink:#172044;--muted:#69728b;
+ --line:#e1e5e6;--red:#c7fb43;--red-dark:#a7e927;
+ --white:#fff;--olive:#293b80;--mint:#eef9df;--yellow:#eafcc0;
+ background:#e9ebf1;
+}
+body{background:#e9ebf1;color:var(--ink)}
+.phone{background:#f7f9f5;border-color:#dce0eb;box-shadow:0 22px 75px #19204721}
+.app-header{background:#fff;border-bottom:1px solid #e6e7ec}
+.brand{color:#1c244d}
+.brand-mark{background:#191c4b;color:#fff;width:38px;height:38px;font-size:24px;font-weight:800;letter-spacing:-2px;box-shadow:0 5px 18px #161b4b22}
+.brand-mark span{color:#cbff47!important;font-size:16px;margin-left:-3px;margin-top:-12px}
+.brand b{color:#819a25}.brand-muted{color:#65718e}
+.switch{color:#202a51;border:1px solid #d7d8e1;background:#f6f7fb}
+.switch span{color:#6060ae}
+.demo-strip{background:#eaf5d3;border-bottom:1px solid #dbeab8}
+.demo-strip span,.demo-strip button{color:#34436a}.live-dot{background:#72ac00}
+.eyebrow,.location{color:#6552a9}
+.page-title,.feature-body h3,.offer-body h3,.section-heading h2{color:#1a214d}
+.page-title em{color:#6551ad}.explore-page>.eyebrow{color:#5b469d}
+.desktop-caption h1 em,.caption-star{color:#6a5aa6}
+.button,.feature-body .card-action{background:#c7fb43!important;color:#192347!important;border:none;box-shadow:none;font-weight:800}
+.button:hover,.feature-body .card-action:hover{background:#b5ef27!important}
+.button.dark{background:#1b2155!important;color:#fff!important}
+.button.secondary{background:#fff!important;color:#222a5d!important;border:1px solid #d9dfe5!important}
+.button.text{background:transparent!important;border:0!important;color:#5954a4!important}
+.button.outline-red{background:white!important;color:#6051b1!important;border:1px solid #aa9bda!important}
+.button:focus-visible,.nav-item:focus-visible,.bottom-nav button:focus-visible{outline:3px solid #8eb933;outline-offset:2px}
+.bottom-nav{background:#fff;border-color:#e3e5e8}
+.bottom-nav button{color:#747e95}
+.bottom-nav button.active{color:#151d49}
+.bottom-nav button.active .nav-icon{background:#c7fb43;color:#1a2451;border-radius:12px;padding:2px 9px;line-height:27px}
+.bottom-nav .nav-icon{min-height:30px;display:grid;place-items:center}
+.bottom-nav button{font-size:9px;gap:0}
+.feature-card,.offer-card,.panel,.visit-card,.restaurant-card,.metric-panel,.creator-card,.result-card{border-color:#e1e5ec;background:#fff}
+.feature-rating{color:#6050a7}.eyeline,.tiny-muted{color:#74809a}
+.featured-info>span{color:#34326a;background:#eeedf8}
+.featured-info>span:last-child{background:#eff9d7;color:#415d1f}
+.image-tag{background:#c7fb43!important;color:#1b2548!important}
+.chip,.chips .chip{color:#4c4a7d!important;background:#efeffa!important}
+.chips .duo-chip{background:#e4faad!important;color:#3a5622!important}
+.duo-label{background:#e9fbc0;color:#385426}
+.solo-label{background:#eef0f8;color:#485b85}
+.explore-control .button{background:#fff!important;border:1px solid #e0e2e9!important}
+.status.good,.notice.green{background:#e8f8d1;color:#335a20}
+.status.waiting{background:#f3f1fd;color:#5c4c9b}
+.status.late,.notice.red{background:#ffe8e4;color:#a43e44}
+.notice{background:#f1f0f8;color:#4e5372}
+.exchange{background:#eafbca;border-color:#d9f0a4}
+.referral-hero{background:#202459;color:#fff}
+.referral-hero .button{background:#c7fb43;color:#17244e}
+.profile-avatar{background:#1c2456;color:#fff}
+.profile-avatar>span{color:#c7fb43}
+.map-link span{color:#4d5ea2}.map-frame{background:#e9efe2}
+.map-static{background:repeating-linear-gradient(135deg,#edf4e5 0 24px,#e6ecdf 24px 48px);color:#55644b}
+.qr-page{padding-bottom:36px}
+.qr-ticket{margin:17px 0 20px;background:white;border:1px solid #e0e5e8;border-radius:24px;text-align:center;padding:25px 18px;box-shadow:0 12px 32px #202a5510}
+.qr-ticket .eyebrow{color:#6a59a4}
+.qr-ticket h2{font:650 27px/1.2 "Fraunces",serif;color:#1e2550;margin:9px 0}
+.qr-ticket .small{font-size:12px;margin-bottom:18px}
+.qr-box{width:216px;height:216px;padding:20px;margin:14px auto;display:flex;align-items:center;justify-content:center;border:2px solid #e3eacc;border-radius:17px;background:#fff}
+.qr-box canvas,.qr-box img{width:176px!important;height:176px!important;object-fit:contain}
+.qr-code-text{font:800 19px "DM Sans",sans-serif;letter-spacing:2.4px;color:#192454;margin:12px 0}
+.qr-placeholder{font-size:12px;font-weight:700;color:#545b83}
+.visit-deadline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:#eff9d7;border-radius:11px;margin:12px 0}
+.visit-deadline span{font-size:11px;color:#495d3c}.visit-deadline strong{font-size:12px;color:#2d4628}
+.qr-redeem-panel{padding:21px 17px;border-radius:21px;background:#202459;color:#fff;margin:16px 0 22px}
+.qr-redeem-panel .eyebrow{color:#c7fb43}
+.qr-redeem-panel h3{font:600 24px Fraunces,serif;margin:8px 0 10px}
+.qr-redeem-panel .small{color:#dee1f0;line-height:1.6}
+.qr-redeem-panel .label{color:#e5e5f1}
+.qr-redeem-panel .fine-print{color:#c2c6db;margin-top:14px}
+.qr-redeem-panel .field{background:#fff;border:none}
+.qr-redeem-panel form .button{margin-top:10px}
+.qr-redeem-panel .button.secondary{color:#202459!important}
+.social-tabs{display:flex;gap:12px;align-items:center;border-bottom:1px solid #e1e5e8;margin:14px 0 20px}
+.social-tabs button{background:none;border:0;padding:12px 14px 11px;color:#717894;font-size:12px;font-weight:800;border-bottom:3px solid transparent}
+.social-tabs button.active{border-color:#a3e52c;color:#1d2554}
+.inspo-card{background:#fff;border:1px solid #e2e6e8;border-radius:20px;overflow:hidden;margin-bottom:18px;box-shadow:0 8px 18px #15214c0a}
+.inspo-image{height:290px;position:relative}
+.inspo-image .photo-surface{height:100%}
+.inspo-overlay{position:absolute;top:16px;left:16px;background:#c7fb43;color:#26345a;padding:9px 13px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:1px}
+.inspo-copy{padding:16px}
+.inspo-copy h3{font:650 24px/1.17 Fraunces,serif;color:#1d254d;margin:8px 0}
+.inspo-copy .small{font-size:12px}
+.friend-search-wrap{margin-top:21px}
+.friend-card{display:flex;align-items:center;gap:12px;padding:14px 10px;border-bottom:1px solid #e1e5ea;background:white}
+.friend-avatar{display:grid;place-items:center;flex:none;width:49px;height:49px;border-radius:15px;background:#e9e6f6;color:#34316b;font-weight:800;font-size:14px}
+.friend-card:nth-child(2n) .friend-avatar{background:#e6f7cc}
+.friend-meta{min-width:0;flex:1}
+.friend-meta h3{font-size:13px;margin:0 0 4px}
+.friend-meta p{font-size:10px;color:#68728e;margin:0 0 3px;line-height:1.3}
+.friend-meta span{font-size:10px;color:#85899a}
+.friend-card .button.tiny{padding:9px 10px;min-height:33px;font-size:10px}
+#friendResults{border:1px solid #e3e6ea;border-radius:17px;overflow:hidden;background:#fff;margin-bottom:18px}
+.content-shell>.page-title,.content-shell>.subhead,.content-shell>.eyebrow,.content-shell>.social-tabs{margin-left:20px;margin-right:20px}
+.content-shell{padding-top:23px}
+.content-shell>.page-title{margin-bottom:11px}
+.content-shell .page{padding-top:0}
+.content-shell .page .page-title{font-size:23px}
+.content-shell .page .eyebrow{display:none}
+.content-shell .page>.subhead{margin:3px 0 20px}
+@media(max-width:780px){.canvas{background:#f7f9f5}.inspo-image{height:310px}.bottom-nav .nav-icon{font-size:20px}}
+@media(max-width:365px){.friend-card{gap:8px}.friend-card .button.tiny{font-size:9px;padding:8px}.friend-avatar{width:42px;height:42px}.inspo-image{height:260px}}
