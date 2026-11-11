@@ -155,3 +155,11 @@ Each inspiration example has a restaurant selector. The demo user can associate 
 The app does not download or re-host TikTok videos. All playback uses the original TikTok player, where available, and rights/availability remain controlled by TikTok and the creator. This feature is not a TikTok recommendation algorithm and does not import your TikTok account without approval.
 
 TikTok reference: https://developers.tiktok.com/docs/en/embed-videos
+
+## Remove Juniper from Explore and feature the five provided TikToks
+
+- The first Explore opportunity remains the fictional Nitro Bar demo; Juniper & Rye is excluded from Explore cards and map pins, from business selection defaults, from inspiration restaurant selectors, and from sample Friends activity. The old Juniper seed data remains internally for historical demo compatibility, but is not offered on Explore.
+- Explore places **Your TikTok videos** directly after the first restaurant opportunity and before the nearby map, rather than hiding it at the bottom of the opportunities feed.
+- All five original TikTok share links are displayed as clearly numbered video cards. When the optional server resolution succeeds, a TikTok-hosted embedded player appears. Otherwise, each card prominently offers **Watch actual TikTok**, opening the original user-provided video in TikTok. The app does not claim to have downloaded, re-hosted, or verified the videos.
+- TikTok originals are not assigned to a restaurant unless manually selected after viewing. The restaurant matching control excludes the removed Juniper demo merchant.
+- Versioned client assets and local demo state reset ensure the new Explore surface is loaded after this deployment.
