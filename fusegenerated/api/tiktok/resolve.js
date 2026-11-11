@@ -44,7 +44,7 @@ async function alternateCover(url){
     return {id,canonical:url,title:String(data.title||"TikTok video").slice(0,220),author:String(data.author?.unique_id||data.author?.nickname||"TikTok creator").slice(0,80),thumbnail:cover||null};
   }catch{return null;}
 }
-export default async function handler(req,res){
+module.exports=async function handler(req,res){
  res.setHeader("Cache-Control","public, s-maxage=900, stale-while-revalidate=1200");
  if(req.method!=="GET")return res.status(405).json({error:"Method not allowed"});
  const raw=typeof req.query?.url==="string"?req.query.url:"";
