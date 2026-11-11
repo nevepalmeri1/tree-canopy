@@ -8,21 +8,21 @@
   function card(v){
     const meta=inspirationCache[v.id]||{};
     const media=meta.id?'<iframe loading="lazy" title="Original TikTok example" allow="encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" src="https://www.tiktok.com/player/v1/'+esc(meta.id)+'?controls=1&description=1"></iframe>':
-      '<div class="inspo-fallback"><span>▶</span><p>'+(meta.status==="unavailable"?"Preview unavailable — original link still works":"TikTok preview loading…")+'</p><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open original TikTok ↗</a></div>';
+      '<div class="inspo-fallback"><span class="inspo-tiktok-logo">♪</span><strong>Video '+(founderInspo.findIndex(item=>item.id===v.id)+1||"example")+'</strong><p>'+(meta.status==="unavailable"?"TikTok preview is unavailable here. The original video opens directly.":"Opening your original TikTok…")+'</p><a class="inspo-watch-btn" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">▶ Watch actual TikTok ↗</a></div>';
     return '<article class="founder-inspo-card" data-inspo-id="'+esc(v.id)+'"><div class="founder-inspo-media">'+media+'</div><div class="founder-inspo-copy"><span class="eyebrow">REAL TIKTOK EXAMPLE</span><h3>'+esc(meta.title||"Creator video inspiration")+'</h3><p>'+esc(meta.author||"Original creator — not verified")+'</p><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open on TikTok ↗</a>'+
       '<label class="label" for="assign-'+esc(v.id)+'">Match with a restaurant</label><select class="field" data-inspo-assign="'+esc(v.id)+'" id="assign-'+esc(v.id)+'"><option value="">Not assigned yet</option>'+state.businesses.map(b=>'<option value="'+esc(b.id)+'" '+(selection(v.id)===b.id?"selected":"")+'>'+esc(b.name)+'</option>').join("")+'</select></div></article>';
   }
   function gallery(restaurantId){
     const videos=getVideos().filter(v=>!restaurantId||selection(v.id)===restaurantId);
-    return '<section class="inspo-gallery" id="inspiration"><div class="section-heading"><h2>Video inspiration</h2><span>'+videos.length+' examples</span></div><p class="small muted">'+(restaurantId?"TikToks assigned to this restaurant to help with the creative brief.":"Five TikToks you shared. Review each example and connect it to a restaurant if relevant. We haven’t assumed which business or creator appears in any video.")+'</p>'+
-      (videos.length?'<div class="inspo-scroll">'+videos.map(card).join("")+'</div>':'<div class="inspo-empty">No videos assigned to this restaurant yet. Explore the full inspiration gallery to assign some.</div>')+
+    return '<section class="inspo-gallery" id="inspiration"><div class="section-heading"><h2>Your TikTok videos</h2><span>'+videos.length+' examples</span></div><p class="small muted">'+(restaurantId?"TikToks assigned to this restaurant to help with the creative brief.":"These are the five actual TikTok links you sent. Tap Watch actual TikTok to see each original. Swipe through the examples, then link any video to a restaurant if it fits.")+'</p>'+
+      (videos.length?'<div class="inspo-scroll">'+videos.map(card).join("")+'</div><p class="inspo-swipe-hint">← Swipe to see all five videos →</p>':'<div class="inspo-empty">No videos assigned to this restaurant yet. Explore the full inspiration gallery to assign some.</div>')+
       (!restaurantId?'<div class="inspo-actions"><button type="button" data-inspo-add class="button secondary">+ Add another TikTok</button></div>':'')+'</section>';
   }
   function insertBeforeFinalSection(html,fragment){
     const idx=html.lastIndexOf("</section>");
     return idx<0?html+fragment:html.slice(0,idx)+fragment+html.slice(idx);
   }
-  explore=function(){return insertBeforeFinalSection(originalExplore(),gallery(null));};
+  explore=function(){const html=originalExplore();const needle='<div class="section-heading map-section-heading">';return html.includes(needle)?html.replace(needle,gallery(null)+needle):insertBeforeFinalSection(html,gallery(null));};
   offerDetail=function(id){const c=campaign(id);return c?insertBeforeFinalSection(originalOffer(id),gallery(c.businessId)):originalOffer(id);};
   render=function(){originalRender();if((state.tab==="explore"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
   const taskCache={};
