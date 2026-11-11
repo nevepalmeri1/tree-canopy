@@ -16,8 +16,17 @@ const PHOTO={
  espressoReal:"https://pub-ba1a74be17d7442a9f2541946eb9510e.r2.dev/shops/a988a10d-8c8a-4e9c-9544-ee5ad9854c4d/2.jpg",
  striveReal:"https://bunsandbites.com/wp-content/uploads/2024/03/IMG_1504.jpeg"
 };
+// TikToks supplied by the founder. We do not assume their creators or featured venues.
+const founderInspo=[
+ {id:"founder-1",url:"https://www.tiktok.com/t/ZTPMetHJu/"},
+ {id:"founder-2",url:"https://www.tiktok.com/t/ZTPMenDwG/"},
+ {id:"founder-3",url:"https://www.tiktok.com/t/ZPLtgVqdC/"},
+ {id:"founder-4",url:"https://www.tiktok.com/t/ZPLtgfd2T/"},
+ {id:"founder-5",url:"https://www.tiktok.com/t/ZTPMeMJ7D/"}
+];
+const inspirationCache={};
 const seed=()=>({
- role:"student",tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null,offerComp:"visit",starterStatus:"none",overdueSimulation:false,mapVisible:true,referrals:[],referralCode:"NEVE-PVD",contentSection:"visits",friendsSection:"discover",friends:["leo"],selectedBusiness:"juniper",savedVideos:[],likedVideos:[],tiktokFeed:"forYou",tiktokPosts:[{id:"tiktok-example",videoId:"6718335390845095173",url:"https://www.tiktok.com/@scout2015/video/6718335390845095173",title:"Example TikTok player",creator:"@scout2015",place:"General inspiration (not Providence)",category:"general",createdAt:"2019-01-01T00:00:00Z",demo:true}],
+ role:"student",tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null,offerComp:"visit",starterStatus:"none",overdueSimulation:false,mapVisible:true,referrals:[],referralCode:"NEVE-PVD",contentSection:"visits",friendsSection:"discover",friends:["leo"],selectedBusiness:"juniper",savedVideos:[],likedVideos:[],tiktokFeed:"town",inspoAssignments:{},tiktokPosts:[{id:"tiktok-example",videoId:"6718335390845095173",url:"https://www.tiktok.com/@scout2015/video/6718335390845095173",title:"Example TikTok player",creator:"@scout2015",place:"General inspiration (not Providence)",category:"general",createdAt:"2019-01-01T00:00:00Z",demo:true}],
  students:[
   {id:"maya",name:"Neve Palmeri",school:"Providence College",handle:"@nevedog101",fuseHandle:"@nevepalmeri",connected:false,approved:true,history:"Completed 3 of 3 visits",links:["https://www.tiktok.com/@example/video/1001","https://www.instagram.com/reel/example1/"],beginner:false},
   {id:"leo",name:"Leo Park",school:"Rhode Island College",handle:"@leoexplorespvd",fuseHandle:"@leo.pvd",connected:false,approved:false,history:"First visit",links:[],beginner:true}
@@ -99,7 +108,7 @@ document.addEventListener("error",event=>{
 },true);
 function tag(text,kind=""){return '<span class="status '+kind+'">'+esc(text)+'</span>'}
 function btn(label,action,id="",style="button",attrs=""){return '<button type="button" class="'+style+'" data-action="'+esc(action)+'" data-id="'+esc(id)+'" '+attrs+'>'+label+'</button>'}
-function nav(){const options=state.role==="student"?[["explore","⌂","Explore"],["forYou","♡","For You"],["friends","♧","Friends"],["content","▣","My Content"],["profile","◯","Profile"]]:[["overview","▦","Overview"],["create","✳","Create"],["creators","♧","Creators"],["videos","▣","Videos"]];$("#bottomNav").innerHTML=options.map(([id,symbol,label])=>'<button type="button" data-tab="'+id+'" class="'+(state.tab===id?"active":"")+'" aria-current="'+(state.tab===id?"page":"false")+'"><span class="nav-icon">'+symbol+'</span><span>'+label+'</span></button>').join("");$("#roleSwitch").innerHTML=state.role==="student"?'Creator <span>⇄</span>':'Business <span>⇄</span>'}
+function nav(){const options=state.role==="student"?[["explore","⌂","Explore"],["friends","♧","Friends"],["content","▣","My Content"],["profile","◯","Profile"]]:[["overview","▦","Overview"],["create","✳","Create"],["creators","♧","Creators"],["videos","▣","Videos"]];$("#bottomNav").innerHTML=options.map(([id,symbol,label])=>'<button type="button" data-tab="'+id+'" class="'+(state.tab===id?"active":"")+'" aria-current="'+(state.tab===id?"page":"false")+'"><span class="nav-icon">'+symbol+'</span><span>'+label+'</span></button>').join("");$("#roleSwitch").innerHTML=state.role==="student"?'Creator <span>⇄</span>':'Business <span>⇄</span>'}
 function heading(kicker,title,sub){return '<p class="eyebrow">'+kicker+'</p><h1 class="page-title">'+title+'</h1>'+(sub?'<p class="subhead">'+sub+'</p>':"")}
 function available(c){return Math.max(0,c.spots-claimsFor(c.id).filter(a=>!expired(a)).length)}
 function capacity(c){return available(c)+' of '+c.spots+' spots left'}
