@@ -378,3 +378,30 @@ body,.phone,.explore-page{background:#f8faf6!important}
 .friends-tiktok-empty .button{font-size:11px;min-height:39px}
 .friends-page .tiktok-video-list{margin:12px 0 25px}
 .friends-page .tiktok-frame{height:430px}
+
+/* Founder-supplied TikTok inspiration gallery, intentionally outside a For You tab */
+.inspo-gallery{margin:26px 0 10px}
+.inspo-gallery>.section-heading{margin-bottom:9px}
+.inspo-gallery>.section-heading h2{font-size:24px;color:#182348}
+.inspo-gallery>.small{font-size:12px;line-height:1.55;padding-right:8px}
+.inspo-scroll{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;padding:7px 2px 17px;scrollbar-width:thin}
+.founder-inspo-card{flex:none;width:min(270px,79vw);scroll-snap-align:start;border:1px solid #dee6de;background:white;border-radius:17px;overflow:hidden;box-shadow:0 5px 16px #1a2c4710}
+.founder-inspo-media{width:100%;height:350px;background:#151d3d}
+.founder-inspo-media iframe{height:100%;width:100%;display:block;border:0}
+.inspo-fallback{height:100%;padding:22px;text-align:center;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(160deg,#1d2752,#273861);color:white}
+.inspo-fallback>span{width:62px;height:62px;display:grid;place-items:center;font-size:28px;border:2px solid #c7fb43;color:#c7fb43;border-radius:50%}
+.inspo-fallback p{font-size:12px;margin:16px 0 4px;line-height:1.5;color:#dbe4f6}
+.inspo-fallback a{font-size:11px;font-weight:800;color:#d6ff77;text-decoration:underline}
+.founder-inspo-copy{padding:14px}
+.founder-inspo-copy>.eyebrow{font-size:9px;color:#61715e!important;margin-bottom:7px}
+.founder-inspo-copy h3{font-size:15px;font-weight:800;color:#1d2b51;line-height:1.2;margin:0 0 7px}
+.founder-inspo-copy p{font-size:11px;color:#65728b;margin:0 0 10px}
+.founder-inspo-copy>a{display:inline-block;font-size:11px;font-weight:800;color:#233e6c;text-decoration:underline;margin:0 0 14px}
+.founder-inspo-copy .label{margin-top:4px;color:#596976}
+.founder-inspo-copy .field{background:#fbfdf8;font-size:12px}
+.inspo-actions{margin-top:6px}
+.inspo-actions .button{font-size:12px;min-height:41px;width:100%;background:#eff7e2!important;border:1px solid #d1e4c2!important}
+.inspo-empty{padding:22px;background:#f2f5ee;border:1px dashed #d2dfcf;color:#5e6d7a;border-radius:14px;font-size:12px;line-height:1.6;margin:12px 0}
+.detail-content .inspo-gallery{margin-top:33px;border-top:1px solid #e3e9e1;padding-top:7px}
+.detail-content .inspo-gallery .section-heading h2{font-size:21px}
+@media(max-width:380px){.founder-inspo-card{width:min(245px,78vw)}.founder-inspo-media{height:325px}}
