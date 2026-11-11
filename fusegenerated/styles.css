@@ -86,3 +86,21 @@ body{background:#e6e9f6}.phone{background:var(--paper);border-color:#d7dcef;box-
  .feature-body h3{font-size:26px}
 }
 @media(max-width:360px){.feature-image{height:165px}.feature-body h3{font-size:23px}.photo-plate{width:118px;height:118px;font-size:60px}}
+
+/* Photo-first offer list / duo labels / creator account */
+.duo-label,.solo-label{font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-top:7px;color:#8a30ba;background:#f4e9ff;padding:4px 7px;border-radius:5px}
+.solo-label{color:#586b9a;background:#eef2ff}
+.duo-chip{color:#7b25aa!important;background:#f0e1ff!important}
+.offer-body{gap:2px}
+.offer-body .eyeline{max-width:100%}
+.offer-body h3{font-size:18px;margin:4px 0}
+.offer-card .photo-surface{min-height:138px}
+.profile-person{display:flex;align-items:center;gap:14px}
+.profile-person h3{margin:0 0 6px}
+.profile-person p{margin:0 0 3px}
+.profile-avatar{flex:none;width:75px;height:75px;border-radius:23px;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,#1b2c65,#5535a6);color:white;font-weight:800;font-size:22px;letter-spacing:-1px}
+.profile-avatar>span{position:absolute;top:7px;right:8px;font-size:13px;color:#fa7cff}
+#tiktokFeed .video-card .button.tiny{margin:5px 0 2px;min-height:30px;padding:6px 9px;font-size:10px}
+#tiktokFeed .video-card .video-thumb{min-width:88px}
+.feature-image .photo-surface,.small-image .photo-surface{background:#ded9ee}
+@media(max-width:780px){.offer-card .small-image{width:125px;min-width:125px}.offer-body h3{font-size:17px}}
