@@ -132,3 +132,26 @@ Created campaigns store these details and show them in the creator's offer view;
 - Official TikTok Player: https://developers.tiktok.com/docs/en/embed-player
 
 The app is a **browser-local hackathon demo** and is not a real-time feed of venue-posted campaigns or an automatic TikTok recommendation algorithm. No actual restaurant deals, TikTok user uploads, verified friend graph, or live analytics are implied.
+
+## Founder-provided TikToks and simplified creator navigation (November 11)
+
+The creator navigation has four tabs: **Explore, Friends, My Content, Profile**. There is no longer a standalone For You destination.
+
+### Five provided video references
+
+These links are included verbatim in the **Video inspiration** gallery on Explore:
+- https://www.tiktok.com/t/ZTPMetHJu/
+- https://www.tiktok.com/t/ZTPMenDwG/
+- https://www.tiktok.com/t/ZPLtgVqdC/
+- https://www.tiktok.com/t/ZPLtgfd2T/
+- https://www.tiktok.com/t/ZTPMeMJ7D/
+
+The demo attempts to retrieve the official TikTok embed video ID and metadata through a narrowly allowlisted server-side TikTok oEmbed endpoint, with a TikTok-only short-link redirect fallback. When a video cannot be embedded or metadata cannot be retrieved, the card links to the original TikTok; it does not fabricate a creator name, restaurant, or playable preview. These examples are **not assumed to show any particular restaurant**.
+
+Each inspiration example has a restaurant selector. The demo user can associate the video with an appropriate restaurant after watching it; the selected examples then appear inside that restaurant's offer brief. Assignments persist in this browser's localStorage. Additional short TikTok links can be added through **Add another TikTok**.
+
+**Friends** continues to show user-provided TikTok links categorized as friends' posts, along with discoverable demo creator profiles; the app does not infer that the five reference videos were posted by friends. These references, creator connections, and restaurant assignments are demo data, not authenticated multi-user content.
+
+The app does not download or re-host TikTok videos. All playback uses the original TikTok player, where available, and rights/availability remain controlled by TikTok and the creator. This feature is not a TikTok recommendation algorithm and does not import your TikTok account without approval.
+
+TikTok reference: https://developers.tiktok.com/docs/en/embed-videos
