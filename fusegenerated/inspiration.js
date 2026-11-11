@@ -11,9 +11,10 @@
     const label=index>=0?"Video "+(index+1):"Saved video";
     const cover=meta.thumbnail&&/^https:\/\//.test(meta.thumbnail)?
       '<img class="inspo-cover-image" src="'+esc(meta.thumbnail)+'" alt="'+esc((meta.title||label)+" TikTok cover")+'" loading="lazy" referrerpolicy="no-referrer">':'';
-    const media='<a class="inspo-cover-link'+(cover?" has-cover":"")+'" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Watch '+esc(label)+' on TikTok">'+
-      cover+'<div class="inspo-cover-fallback"><span class="inspo-tiktok-logo">♪</span><strong>'+esc(label)+'</strong><span class="inspo-preview-status">'+(meta.status==="unavailable"?"Cover unavailable":"TikTok cover preview")+'</span></div>'+
-      '<span class="inspo-cover-play" aria-hidden="true">▶</span><span class="inspo-cover-cta">Watch on TikTok ↗</span></a>';
+    const nativePlayer=meta.id&&!cover?'<div class="inspo-embedded-fallback"><iframe loading="lazy" title="'+esc(label)+' original TikTok video preview" src="https://www.tiktok.com/player/v1/'+esc(meta.id)+'?controls=1&description=0" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Watch original TikTok ↗</a></div>':"";
+    const media=nativePlayer||('<a class="inspo-cover-link'+(cover?" has-cover":"")+'" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Watch '+esc(label)+' on TikTok">'+
+      cover+'<div class="inspo-cover-fallback"><span class="inspo-tiktok-logo">♪</span><strong>'+esc(label)+'</strong><span class="inspo-preview-status">'+(meta.status==="unavailable"?"TikTok cover not available":"Fetching original cover…")+'</span></div>'+
+      '<span class="inspo-cover-play" aria-hidden="true">▶</span><span class="inspo-cover-cta">Watch on TikTok ↗</span></a>');
     return '<article class="founder-inspo-card" data-inspo-id="'+esc(v.id)+'"><div class="founder-inspo-media">'+media+'</div><div class="founder-inspo-copy"><span class="eyebrow">REAL TIKTOK EXAMPLE</span><h3>'+esc(meta.title||"Creator video inspiration")+'</h3><p>'+esc(meta.author||"Original creator — not verified")+'</p><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open on TikTok ↗</a>'+
       '<label class="label" for="assign-'+esc(v.id)+'">Match with a restaurant</label><select class="field" data-inspo-assign="'+esc(v.id)+'" id="assign-'+esc(v.id)+'"><option value="">Not assigned yet</option>'+state.businesses.filter(b=>b.id!=="juniper").map(b=>'<option value="'+esc(b.id)+'" '+(selection(v.id)===b.id?"selected":"")+'>'+esc(b.name)+'</option>').join("")+'</select></div></article>';
   }
