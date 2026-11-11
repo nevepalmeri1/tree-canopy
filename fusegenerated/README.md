@@ -32,3 +32,30 @@ Open `index.html` or from the repo root run `python3 -m http.server 8000` and vi
 Browser localStorage only. No cross-device data sharing, backend database, real student or restaurant authentication, genuine referral redemption, QR check-in, real free-food entitlement, real customer tracking, creator media uploads, actual playback for seeded videos, or TikTok/Instagram API statistics. New post URLs show **Stats pending**. Historical video stats, merchant-reported visits, and creator follow-through figures are demo data.
 
 This product is **independent of Providence College**.
+
+## November 2026 demo refinements
+
+- The six highlighted opportunities are Juniper & Rye lunch, The Nitro Bar coffee, Espresso by Strive coffee, Strive Kitchen + Bar dinner, Poppy Table pastry, and Harbor Bowl Co. dinner.
+- Exactly three of the six featured offers (Juniper lunch, Nitro coffee, and Strive dinner) are marked **You + a friend**.
+- On duo offers, select **Tag a Fuse friend & claim 2 spots**, enter the demo Fuse handle `@leo.pvd`, and reserve two of three spots. From Profile switch to Leo, then accept the invite in My visits. Both creators owe and submit separate videos.
+- The default creator is **Neve Palmeri**, Fuse `@nevepalmeri`, TikTok `@nevedog101`.
+- Real venue-specific food photography is referenced from Visit Rhode Island (The Nitro Bar), joe coffee (Espresso by Strive), and Buns & Bites (Strive Kitchen + Bar). Those third-party images are referenced remotely, not owned or licensed by FuseGenerated. Confirm image-use permissions before commercial launch. Fictional merchants use illustrative imagery or a graphical fallback.
+
+## TikTok connection: developer setup required
+
+The TikTok OAuth and public-video import endpoints are implemented under `api/tiktok/`. **They are not enabled until you register/obtain approval for a TikTok developer app and set private server environment variables.** This is a real authorization integration, not a mocked "Connected" badge.
+
+Configure these variables privately in the Vercel project settings (do not place keys in GitHub or in chat):
+
+- `TIKTOK_CLIENT_KEY` — developer app client key
+- `TIKTOK_CLIENT_SECRET` — developer app client secret
+- `TIKTOK_SESSION_SECRET` — unique cryptographically random secret at least 32 characters long
+- `TIKTOK_REDIRECT_URI` — `https://fusegenerated.vercel.app/api/tiktok/callback` (register the *exact same* URL in TikTok Login Kit)
+
+Request/obtain approval for TikTok Login Kit and Display API scopes `user.info.basic` and `video.list`. The OAuth start endpoint checks configuration and authenticates through TikTok; the callback validates state and exchanges a code on the server; tokens are stored in an encrypted, HttpOnly, secure short-lived browser cookie, never browser JavaScript. The API reads recent public TikToks and creator metrics. Users can select **Use for a visit** to attach a video to a restaurant campaign, so it appears in both creator and business views. A video not explicitly linked to a restaurant stays only in the connected creator's recent uploads.
+
+Token refresh and durable multi-account identity are not implemented yet. Do not deploy as a production marketplace without backend accounts, persistent secure token storage, disconnection/revocation, data-retention policies, media-rights validation, security review, and user testing. Without credentials, the app says "Integration setup required" and the manual post URL flow still works.
+
+TikTok developer documentation:
+- https://developers.tiktok.com/docs/en/login-kit-web
+- https://developers.tiktok.com/docs/en/display-api-get-started

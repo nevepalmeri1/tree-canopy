@@ -30,3 +30,77 @@ body{background:#e6e9f6}.phone{background:var(--paper);border-color:#d7dcef;box-
 .eyeline,.tiny-muted{color:#657092}.notice{background:#f0edff;color:#505b83}
 #content{min-height:0}.page{padding-bottom:26px}
 @media(max-width:780px){.phone{height:100dvh;min-height:0}.feature-image{height:225px}.page{padding-top:23px}}
+
+/* Explore visual refinement — photo-safe cards and elevated editorial layout */
+.explore-page{padding-top:24px}
+.explore-page>.eyebrow{color:#7b46b2;letter-spacing:1.9px}
+.explore-page>.page-title{font-size:36px;line-height:1.06;letter-spacing:-1.2px;margin-bottom:9px;color:#162550}
+.explore-page>.subhead{font-size:12px;line-height:1.5;color:#68718c;margin-bottom:18px}
+.explore-control{margin-bottom:15px}
+.explore-control .button{background:white;box-shadow:0 4px 12px #202d6d0a;border:1px solid #dad8ec;color:#402b7d;border-radius:12px}
+.feature-card{border-radius:20px;border:1px solid #e3dff1;box-shadow:0 12px 31px #19285a0d;background:#fff}
+.feature-image{height:190px;position:relative;overflow:hidden;background:#eeeafb}
+.feature-image .image-tag{top:12px;left:12px;background:#fff;color:#63349c;padding:8px 11px;border-radius:100px;box-shadow:0 5px 14px #1a295a17;letter-spacing:.2px}
+.feature-body{padding:17px 17px 18px}
+.feature-body h3{font:600 27px/1.13 Fraunces,serif;letter-spacing:-.75px;margin:9px 0 11px;color:#17244c}
+.feature-body .card-summary{margin:11px 0 0;font-size:12px;color:#68718b;line-height:1.55}
+.feature-overline{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.feature-overline .eyeline{font-size:11px;color:#687497}
+.feature-rating{flex:none;font-size:9px;color:#9b35bd;letter-spacing:1.05px;font-weight:800}
+.featured-info{display:flex;gap:8px;flex-wrap:wrap}
+.featured-info>span{font-size:10px;padding:8px 10px;border-radius:9px;font-weight:700;background:#f2eafd;color:#7335ac}
+.featured-info>span:last-child{background:#edf0fc;color:#384f87}
+.feature-body .card-action{margin-top:15px;height:46px;border-radius:12px;background:#a72ad6;box-shadow:none;font-size:13px}
+.feature-body .card-action:hover{background:#881fb1}
+.section-heading{margin:29px 0 15px}
+.explore-page .section-heading h2{font-size:25px;letter-spacing:-.8px;color:#172754}
+.explore-page .section-heading>span{color:#85849c}
+.offer-card{border:1px solid #e3e0f0;border-radius:16px;box-shadow:0 7px 18px #2437690a}
+.offer-card .small-image{width:125px;min-width:125px;height:143px}
+.offer-body{padding:14px 12px 12px 14px}
+.offer-body h3{font:600 19px/1.16 Fraunces,serif;letter-spacing:-.3px;color:#22234f}
+.offer-body .eyeline{font-size:10px}
+.offer-body .card-summary{font-size:11px;color:#626c88}
+.offer-body .button.text{color:#9f2dcc;font-size:11px}
+.photo-surface{position:relative;isolation:isolate;width:100%;height:100%;overflow:hidden;background:#ded9ef}
+.photo-surface .actual-photo{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;z-index:2;opacity:1}
+.photo-surface .actual-photo[hidden]{display:none}
+.photo-backdrop{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#eeeaf7}
+.photo-backdrop::before{content:"";position:absolute;width:200px;height:200px;border-radius:50%;background:#cab6e7;top:-100px;right:-55px}
+.photo-backdrop::after{content:"";position:absolute;width:155px;height:155px;border-radius:50%;background:#c7caf1;bottom:-85px;left:-35px}
+.photo-plate{position:relative;z-index:1;width:132px;height:132px;border-radius:50%;display:grid;place-items:center;background:#faf9ff;border:9px solid #dbd4ed;font-size:71px;transform:rotate(-9deg);box-shadow:0 10px 27px #1c234e1c}
+.photo-stamp,.photo-caption{position:absolute;z-index:1;font-family:"DM Sans",sans-serif;letter-spacing:1.6px;font-size:9px;font-weight:800;color:#543a89}
+.photo-stamp{top:17px;right:15px}
+.photo-caption{bottom:15px;right:15px}
+.image-failed .photo-backdrop{background:#eae4f7}
+.small-image .photo-plate,.video-thumb .photo-plate,.restaurant-photo .photo-plate{width:87px;height:87px;border-width:6px;font-size:45px}
+.small-image .photo-stamp,.small-image .photo-caption,.video-thumb .photo-stamp,.video-thumb .photo-caption,.restaurant-photo .photo-stamp,.restaurant-photo .photo-caption{font-size:7px}
+.hero-image .photo-plate{width:145px;height:145px;font-size:80px}
+.creator-card .preview-row .photo-surface{width:calc(50% - 4px);height:92px;flex:none;border-radius:9px}
+.creator-card .preview-row .photo-surface img{width:100%}
+.creator-card .preview-row .photo-plate{width:64px;height:64px;font-size:32px;border-width:5px}
+.video-preview .photo-surface{height:100%}
+@media(max-width:780px){
+ .feature-image{height:190px}
+ .explore-page{padding-top:23px}
+ .feature-body h3{font-size:26px}
+}
+@media(max-width:360px){.feature-image{height:165px}.feature-body h3{font-size:23px}.photo-plate{width:118px;height:118px;font-size:60px}}
+
+/* Photo-first offer list / duo labels / creator account */
+.duo-label,.solo-label{font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-top:7px;color:#8a30ba;background:#f4e9ff;padding:4px 7px;border-radius:5px}
+.solo-label{color:#586b9a;background:#eef2ff}
+.duo-chip{color:#7b25aa!important;background:#f0e1ff!important}
+.offer-body{gap:2px}
+.offer-body .eyeline{max-width:100%}
+.offer-body h3{font-size:18px;margin:4px 0}
+.offer-card .photo-surface{min-height:138px}
+.profile-person{display:flex;align-items:center;gap:14px}
+.profile-person h3{margin:0 0 6px}
+.profile-person p{margin:0 0 3px}
+.profile-avatar{flex:none;width:75px;height:75px;border-radius:23px;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,#1b2c65,#5535a6);color:white;font-weight:800;font-size:22px;letter-spacing:-1px}
+.profile-avatar>span{position:absolute;top:7px;right:8px;font-size:13px;color:#fa7cff}
+#tiktokFeed .video-card .button.tiny{margin:5px 0 2px;min-height:30px;padding:6px 9px;font-size:10px}
+#tiktokFeed .video-card .video-thumb{min-width:88px}
+.feature-image .photo-surface,.small-image .photo-surface{background:#ded9ee}
+@media(max-width:780px){.offer-card .small-image{width:125px;min-width:125px}.offer-body h3{font-size:17px}}

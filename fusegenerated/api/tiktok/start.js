@@ -1,0 +1,4 @@
+const crypto=require("node:crypto");const {STATE,configured}=require("./_session");
+module.exports=async function handler(req,res){res.setHeader("Cache-Control","no-store");if(req.method!=="GET")return res.status(405).end();if(!configured())return res.status(503).send("TikTok integration is not configured.");
+const nonce=crypto.randomBytes(24).toString("hex");res.setHeader("Set-Cookie",STATE+"="+nonce+"; HttpOnly; Secure; SameSite=Lax; Path=/api/tiktok; Max-Age=600");
+const url=new URL("https://www.tiktok.com/v2/auth/authorize/");url.searchParams.set("client_key",process.env.TIKTOK_CLIENT_KEY);url.searchParams.set("scope","user.info.basic,video.list");url.searchParams.set("response_type","code");url.searchParams.set("redirect_uri",process.env.TIKTOK_REDIRECT_URI);url.searchParams.set("state",nonce);return res.redirect(302,url.toString());};
