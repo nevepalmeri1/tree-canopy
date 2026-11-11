@@ -1,5 +1,21 @@
 // Resolve a public TikTok URL through TikTok's public oEmbed endpoint.
 // No credentials and no arbitrary remote hosts; failures are expected for private or unavailable videos.
+const allowedHosts=new Set(["www.tiktok.com","tiktok.com","vm.tiktok.com","vt.tiktok.com","m.tiktok.com"]);
+async function unwrapShortURL(start){
+ let current=start;
+ for(let i=0;i<4;i++){
+  if(!allowedHosts.has(current.hostname.toLowerCase())||current.protocol!=="https:")return null;
+  const match=current.pathname.match(/^\/@[^/]+\/video\/(\d{10,25})\/?$/);
+  if(match)return {id:match[1],canonical:current.href};
+  const response=await fetch(current.href,{method:"HEAD",redirect:"manual",signal:AbortSignal.timeout(3500),headers:{"User-Agent":"Mozilla/5.0"}});
+  const loc=response.headers.get("location");
+  if(!loc)break;
+  const next=new URL(loc,current);
+  if(!allowedHosts.has(next.hostname.toLowerCase())||next.protocol!=="https:")break;
+  current=next;
+ }
+ return null;
+}
 module.exports=async function handler(req,res){
  res.setHeader("Cache-Control","public, s-maxage=1800, stale-while-revalidate=3600");
  if(req.method!=="GET")return res.status(405).json({error:"Method not allowed"});
@@ -12,14 +28,14 @@ module.exports=async function handler(req,res){
   const target=new URL("https://www.tiktok.com/oembed");
   target.searchParams.set("url",input.href);
   const response=await fetch(target,{headers:{"Accept":"application/json","User-Agent":"FuseGeneratedPrototype/1.0"},signal:AbortSignal.timeout(7500)});
-  if(!response.ok)return res.status(404).json({error:"TikTok did not return metadata for this post"});
+  if(!response.ok){const resolved=await unwrapShortURL(input).catch(()=>null);if(resolved)return res.status(200).json({...resolved,title:"TikTok inspiration video",author:"TikTok creator",thumbnail:null});return res.status(404).json({error:"TikTok did not return metadata for this post"});}
   const data=await response.json();
   const html=String(data.html||"");
   const src=String(data.author_url||"")+" "+String(data.embed_product_id||"")+" "+html+" "+String(data.url||"");
   const idMatch=src.match(/(?:data-video-id=["']|\/video\/|\/player\/v1\/)(\d{10,25})/);
-  if(!idMatch)return res.status(422).json({error:"TikTok metadata did not include a playable video ID"});
+  if(!idMatch){const resolved=await unwrapShortURL(input).catch(()=>null);if(resolved)return res.status(200).json({...resolved,title:String(data.title||"TikTok video").slice(0,220),author:String(data.author_name||"TikTok creator").slice(0,80),thumbnail:null});return res.status(422).json({error:"TikTok metadata did not include a playable video ID"});}
   const id=idMatch[1];
   const canonical=(typeof data.url==="string"&&data.url.startsWith("https://www.tiktok.com/"))?data.url:input.href;
   return res.status(200).json({id,canonical,title:String(data.title||"TikTok video").slice(0,220),author:String(data.author_name||"Creator").slice(0,80),thumbnail:typeof data.thumbnail_url==="string"&&data.thumbnail_url.startsWith("https://")?data.thumbnail_url:null});
- }catch{return res.status(502).json({error:"Could not reach TikTok. Open the original video instead"});}
+ }catch{const resolved=await unwrapShortURL(input).catch(()=>null);if(resolved)return res.status(200).json({...resolved,title:"TikTok inspiration video",author:"TikTok creator",thumbnail:null});return res.status(502).json({error:"Could not reach TikTok. Open the original video instead"});}
 };
