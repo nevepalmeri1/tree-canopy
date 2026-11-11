@@ -1,6 +1,6 @@
 "use strict";
 // FuseGenerated hackathon prototype. Fictional merchants and browser-local demo state.
-const STORAGE="fusegenerated-providence-pilot-v2";
+const STORAGE="fusegenerated-providence-pilot-v3";
 const PHOTO={
  lunch:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1100&q=85&fit=crop",
  sandwich:"https://images.unsplash.com/photo-1553909489-cd47e0ef937f?w=950&q=85&fit=crop",
@@ -12,23 +12,31 @@ const PHOTO={
  bowl:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=950&q=85&fit=crop"
 };
 const seed=()=>({
- role:"student",tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null,offerComp:"visit",starterStatus:"none",overdueSimulation:false,
+ role:"student",tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null,offerComp:"visit",starterStatus:"none",overdueSimulation:false,mapVisible:false,referrals:[],referralCode:"MAYA-PVD",
  students:[
   {id:"maya",name:"Maya Chen",school:"Providence College",handle:"@mayamakesmoves",approved:true,history:"Completed 3 of 3 visits",links:["https://www.tiktok.com/@example/video/1001","https://www.instagram.com/reel/example1/"],beginner:false},
   {id:"leo",name:"Leo Park",school:"Rhode Island College",handle:"@leoexplorespvd",approved:false,history:"First visit",links:[],beginner:true}
  ],
  activeStudent:"maya",
  businesses:[
-  {id:"juniper",name:"Juniper & Rye",neighborhood:"Elmhurst",photo:PHOTO.sandwich},
-  {id:"poppy",name:"Poppy Table",neighborhood:"Federal Hill",photo:PHOTO.pastry},
-  {id:"harbor",name:"Harbor Bowl Co.",neighborhood:"College Hill",photo:PHOTO.bowl}
+  {id:"juniper",name:"Juniper & Rye",neighborhood:"Elmhurst",photo:PHOTO.sandwich,lat:41.839,lng:-71.434},
+  {id:"poppy",name:"Poppy Table",neighborhood:"Federal Hill",photo:PHOTO.pastry,lat:41.818,lng:-71.429},
+  {id:"harbor",name:"Harbor Bowl Co.",neighborhood:"College Hill",photo:PHOTO.bowl,lat:41.827,lng:-71.399},
+  {id:"nitro",name:"The Nitro Bar",neighborhood:"Fox Point",photo:PHOTO.coffee,lat:41.8293,lng:-71.392,address:"134 Ives St, Providence, RI"},
+  {id:"espresso",name:"Espresso by Strive",neighborhood:"Elmhurst",photo:PHOTO.pastry,lat:41.8435,lng:-71.4362,address:"365 Admiral St, Providence, RI"},
+  {id:"strive",name:"Strive Kitchen + Bar",neighborhood:"Elmhurst",photo:PHOTO.noodles,lat:41.8436,lng:-71.4369,address:"383 Admiral St, Providence, RI"}
  ],
  campaigns:[
-  {id:"lunch",businessId:"juniper",title:"Lunch near PC for under $15",neighborhood:"Elmhurst",comp:"visit",reward:"Lunch covered",spots:2,window:"Weekdays, 11:30 AM–2:00 PM",deadline:"Within 48 hours of your visit",post:"1 TikTok or Instagram Reel per creator",brief:"Show what you ordered, what it costs, and how far it is from PC. Share your honest take and mention that lunch was covered.",description:"Try our weekday lunch special: a toasted sandwich, side salad, and something to sip.",image:PHOTO.sandwich,price:"Under $15",status:"open",isFeatured:true,visitBy:"Nov 20, 2026"},
+  {id:"lunch",businessId:"juniper",title:"Lunch near PC for under $15",neighborhood:"Elmhurst",comp:"visit",reward:"Lunch covered",spots:3,window:"Weekdays, 11:30 AM–2:00 PM",deadline:"Within 48 hours of your visit",post:"1 TikTok or Instagram Reel per creator",brief:"Show what you ordered, what it costs, and how far it is from PC. Share your honest take and mention that lunch was covered.",description:"Try our weekday lunch special: a toasted sandwich, side salad, and something to sip.",image:PHOTO.sandwich,price:"Under $15",status:"open",isFeatured:true,visitBy:"Nov 20, 2026"},
   {id:"pastry",businessId:"poppy",title:"A perfect Providence pastry stop",neighborhood:"Federal Hill",comp:"visit",reward:"Pastry + coffee covered",spots:3,window:"Sat–Sun, 9 AM–noon",deadline:"Within 48 hours of your visit",post:"1 TikTok or Instagram Reel",brief:"Show your favorite treat and what makes this stop worth sharing. Say that your visit was covered.",description:"Find your new favorite morning ritual.",image:PHOTO.pastry,price:"Coffee + pastry",status:"open",visitBy:"Nov 29, 2026"},
-  {id:"bowls",businessId:"harbor",title:"Your go-to quick dinner spot",neighborhood:"College Hill",comp:"cash",reward:"$60 per post",spots:3,window:"Any weekday, 5–8 PM",deadline:"Within 72 hours of your visit",post:"1 original Instagram Reel or TikTok",brief:"Show the menu, your order, and who would love it. Disclose this is a paid collaboration.",description:"An honest review of a customizable rice bowl.",image:PHOTO.bowl,price:"$60 cash",status:"open",visitBy:"Dec 8, 2026"},
-  {id:"past1",businessId:"juniper",title:"The coziest study-break coffee",neighborhood:"Elmhurst",comp:"visit",reward:"Coffee + toast covered",spots:2,window:"October weekday mornings",deadline:"Within 48 hours of your visit",post:"One original Reel",brief:"Show why this is a nice study break and disclose your covered visit.",description:"A cozy stop between classes.",image:PHOTO.coffee,price:"Coffee + toast",status:"completed",visitBy:"Oct 12, 2026"},
-  {id:"past2",businessId:"juniper",title:"A fall brunch worth walking for",neighborhood:"Elmhurst",comp:"visit",reward:"Brunch covered",spots:2,window:"October weekends",deadline:"Within 48 hours of your visit",post:"One original TikTok",brief:"Show your brunch order, mention the neighborhood and disclose your covered visit.",description:"An easy weekend outing.",image:PHOTO.toast,price:"Brunch covered",status:"completed",visitBy:"Oct 30, 2026"}
+  {id:"bowls",businessId:"harbor",title:"Your go-to quick dinner spot",neighborhood:"College Hill",comp:"visit",reward:"Dinner covered",spots:3,window:"Any weekday, 5–8 PM",deadline:"Within 72 hours of your visit",post:"1 original Instagram Reel or TikTok",brief:"Show the menu, your order, and who would love it. Disclose this is a paid collaboration.",description:"An honest review of a customizable rice bowl.",image:PHOTO.bowl,price:"Dinner covered",status:"open",visitBy:"Dec 8, 2026"},
+  {id:"nitro",businessId:"nitro",title:"A Nitro Bar coffee run",neighborhood:"Fox Point",comp:"visit",reward:"Coffee + snack covered",spots:3,window:"Weekday mornings",deadline:"Within 48 hours of your visit",post:"One original TikTok or Reel",brief:"Show your drink and a helpful menu tip. Disclose your covered visit.",description:"Coffee, bites, and a new local favorite.",image:PHOTO.coffee,price:"Covered visit",status:"open",visitBy:"Dec 5, 2026"},
+  {id:"espresso",businessId:"espresso",title:"Morning coffee on Admiral",neighborhood:"Elmhurst",comp:"visit",reward:"Breakfast covered",spots:3,window:"Weekday mornings, 8–11 AM",deadline:"Within 48 hours of your visit",post:"One original TikTok or Reel",brief:"Show breakfast, where it is, and your honest take. Disclose your covered meal.",description:"A new spot for your morning routine.",image:PHOTO.pastry,price:"Covered visit",status:"open",visitBy:"Dec 6, 2026"},
+  {id:"strive",businessId:"strive",title:"Dinner on Admiral Street",neighborhood:"Elmhurst",comp:"visit",reward:"Dinner covered",spots:3,window:"Weekdays, 5–7 PM",deadline:"Within 48 hours of your visit",post:"One original TikTok or Reel",brief:"Show a dish, the atmosphere and a useful tip. Disclose the covered dinner.",description:"Add a new dinner option to your Providence list.",image:PHOTO.noodles,price:"Covered visit",status:"open",visitBy:"Dec 7, 2026"},
+  {id:"brunch2",businessId:"juniper",title:"A cozy weekday breakfast",neighborhood:"Elmhurst",comp:"visit",reward:"Breakfast covered",spots:3,window:"Weekdays 8–11 AM",deadline:"Within 48 hours of your visit",post:"One original TikTok or Reel",brief:"Show your order and why people should know about this spot. Disclose the visit.",description:"A good start to a Providence morning.",image:PHOTO.toast,price:"Breakfast covered",status:"open",visitBy:"Dec 12, 2026"},
+  {id:"pastry2",businessId:"poppy",title:"Afternoon pastry find",neighborhood:"Federal Hill",comp:"visit",reward:"Pastry + drink covered",spots:3,window:"Afternoons 2–4 PM",deadline:"Within 48 hours of your visit",post:"One original TikTok or Reel",brief:"Show a pastry and share an honest take. Mention that it was covered.",description:"A sweet midweek outing.",image:PHOTO.pastry,price:"Covered visit",status:"open",visitBy:"Dec 14, 2026"},
+  {id:"past1",businessId:"juniper",title:"The coziest study-break coffee",neighborhood:"Elmhurst",comp:"visit",reward:"Coffee + toast covered",spots:3,window:"October weekday mornings",deadline:"Within 48 hours of your visit",post:"One original Reel",brief:"Show why this is a nice study break and disclose your covered visit.",description:"A cozy stop between classes.",image:PHOTO.coffee,price:"Coffee + toast",status:"completed",visitBy:"Oct 12, 2026"},
+  {id:"past2",businessId:"juniper",title:"A fall brunch worth walking for",neighborhood:"Elmhurst",comp:"visit",reward:"Brunch covered",spots:3,window:"October weekends",deadline:"Within 48 hours of your visit",post:"One original TikTok",brief:"Show your brunch order, mention the neighborhood and disclose your covered visit.",description:"An easy weekend outing.",image:PHOTO.toast,price:"Brunch covered",status:"completed",visitBy:"Oct 30, 2026"}
  ],
  claims:[
   {id:"seed-claim-1",campaignId:"past1",studentId:"maya",status:"posted",review:"approved",visitDate:"Oct 10, 2026"},
@@ -62,11 +70,11 @@ function toast(message){const el=$("#toast");el.textContent=message;el.classList
 function img(src,alt,extra=""){return '<img src="'+esc(src)+'" alt="'+esc(alt)+'" loading="lazy" '+extra+'>'}
 function tag(text,kind=""){return '<span class="status '+kind+'">'+esc(text)+'</span>'}
 function btn(label,action,id="",style="button",attrs=""){return '<button type="button" class="'+style+'" data-action="'+esc(action)+'" data-id="'+esc(id)+'" '+attrs+'>'+label+'</button>'}
-function nav(){const options=state.role==="student"?[["explore","⌕","Explore"],["visits","▣","My visits"],["content","▥","My content"],["profile","◯","Profile"]]:[["overview","▦","Overview"],["create","＋","Create offer"],["creators","♧","Creators"],["videos","▣","Creator videos"]];$("#bottomNav").innerHTML=options.map(([id,symbol,label])=>'<button type="button" data-tab="'+id+'" class="'+(state.tab===id?"active":"")+'" aria-current="'+(state.tab===id?"page":"false")+'"><span class="nav-icon">'+symbol+'</span><span>'+label+'</span></button>').join("");$("#roleSwitch").innerHTML=state.role==="student"?'Student <span>⇄</span>':'Business <span>⇄</span>'}
+function nav(){const options=state.role==="student"?[["explore","⌕","Explore"],["visits","▣","My visits"],["content","▥","My content"],["profile","◯","Profile"],["referrals","↗","Refer"]]:[["overview","▦","Overview"],["create","＋","Create offer"],["creators","♧","Creators"],["videos","▣","Creator videos"]];$("#bottomNav").innerHTML=options.map(([id,symbol,label])=>'<button type="button" data-tab="'+id+'" class="'+(state.tab===id?"active":"")+'" aria-current="'+(state.tab===id?"page":"false")+'"><span class="nav-icon">'+symbol+'</span><span>'+label+'</span></button>').join("");$("#roleSwitch").innerHTML=state.role==="student"?'Creator <span>⇄</span>':'Business <span>⇄</span>'}
 function heading(kicker,title,sub){return '<p class="eyebrow">'+kicker+'</p><h1 class="page-title">'+title+'</h1>'+(sub?'<p class="subhead">'+sub+'</p>':"")}
 function available(c){return Math.max(0,c.spots-claimsFor(c.id).length)}
 function capacity(c){return available(c)+' of '+c.spots+' spots left'}
-function render(){nav();const screens={explore,visits,content,profile,overview,create,creators,videos};let html;if(state.detail?.type==="offer")html=offerDetail(state.detail.id);else if(state.detail?.type==="claimed")html=claimedScreen(state.detail.id);else if(state.detail?.type==="friend")html=friendScreen(state.detail.id);else if(state.detail?.type==="restaurant")html=restaurantDetail(state.detail.id);else if(state.detail?.type==="video")html=videoDetail(state.detail.id);else if(state.detail?.type==="campaign")html=campaignResult(state.detail.id);else html=screens[state.tab]();$("#content").innerHTML=html;}
+function render(){nav();const screens={explore,visits,content,profile,referrals,overview,create,creators,videos};let html;if(state.detail?.type==="offer")html=offerDetail(state.detail.id);else if(state.detail?.type==="claimed")html=claimedScreen(state.detail.id);else if(state.detail?.type==="friend")html=friendScreen(state.detail.id);else if(state.detail?.type==="restaurant")html=restaurantDetail(state.detail.id);else if(state.detail?.type==="video")html=videoDetail(state.detail.id);else if(state.detail?.type==="campaign")html=campaignResult(state.detail.id);else html=screens[state.tab]();$("#content").innerHTML=html;}
 function goTab(tab){state.tab=tab;state.detail=null;render();$("#content").scrollTop=0}
 function goDetail(type,id){state.detail={type,id};render();$("#content").scrollTop=0}
 function imageTag(c){return c.comp==="cash"?'<span class="image-tag red">PAID COLLAB · '+esc(c.reward)+'</span>':'<span class="image-tag">'+esc(c.reward)+'</span>'}
@@ -113,7 +121,7 @@ case"claim":{const a=claim(id);if(a)goDetail("claimed",a.id);return}
 case"friend":return goDetail("friend",id);
 case"accept-friend":{const original=state.claims.find(x=>x.id===id);if(!original)return;const a=claim(original.campaignId,"leo");if(!a)return;state.activeStudent="leo";persist();goTab("visits");toast("Leo accepted. Both spots are now claimed.");return}
 case"copy-invite":return copyInvite(id);
-case"visits":case"explore":case"content":case"profile":case"overview":case"create":case"creators":case"videos":return goTab(action);
+case"visits":case"explore":case"content":case"profile":case"referrals":case"overview":case"create":case"creators":case"videos":return goTab(action);
 case"restaurant":return goDetail("restaurant",id);
 case"video":return goDetail("video",id);
 case"campaign":return goDetail("campaign",id);
