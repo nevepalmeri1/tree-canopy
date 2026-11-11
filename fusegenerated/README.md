@@ -59,3 +59,21 @@ Token refresh and durable multi-account identity are not implemented yet. Do not
 TikTok developer documentation:
 - https://developers.tiktok.com/docs/en/login-kit-web
 - https://developers.tiktok.com/docs/en/display-api-get-started
+
+## Electric lime / seven-day QR pilot update
+
+The creator navigation is **Explore, For You, Friends, My Content, Profile**. My Content has **My Visits** and **My Posts** sections. For You shows curated fictional inspiration examples, not live TikTok videos. Friends allows searching simulated Providence creator profiles and adding/removing connections in local browser storage.
+
+Brand palette: neon lime (`#C7FB43`), midnight indigo (`#202459`), pale neutral backgrounds. FuseGenerated retains the F/asterisk brand mark.
+
+### Claimed visit: seven-day redemption
+
+- Every new claim now receives a claim timestamp and expiry exactly seven days later, with a unique **demo redemption code**.
+- The creator's My Content → My Visits screen shows a countdown and a **Show my meal QR code** button.
+- The QR holds `FUSE-DEMO|<code>`. The demo uses an external QR rendering script (with a printed-code fallback).
+- Business → Overview → select restaurant → Scan with camera (when supported) or type code → **Verify & redeem**. The browser validates business, one-time use, accepted invite, and expiry. Successful local redemption marks the visit as checked in for that creator, and their video submission is then unlocked.
+- After a QR is redeemed once, the same code is rejected on subsequent attempts. Expired, unaccepted, or mismatched-restaurant codes are rejected.
+- Each member of a duo has their own code; their videos and check-ins are tracked individually.
+- This is intentionally **demo-only**. Browser localStorage is not shared between different users or devices; the restaurant and creator must use the same demo browser to see each other's claims. Codes are not secure tickets and cannot actually authorize a complimentary meal. A production system needs authenticated accounts, server-side code issuance and redemption, database transactions, merchant authorization and fraud prevention.
+
+The existing TikTok developer approval/credential requirements still apply. Until connected, the creator can paste a published post URL manually after the demo QR check-in.
