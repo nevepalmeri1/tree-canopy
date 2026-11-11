@@ -163,3 +163,13 @@ TikTok reference: https://developers.tiktok.com/docs/en/embed-videos
 - All five original TikTok share links are displayed as clearly numbered video cards. When the optional server resolution succeeds, a TikTok-hosted embedded player appears. Otherwise, each card prominently offers **Watch actual TikTok**, opening the original user-provided video in TikTok. The app does not claim to have downloaded, re-hosted, or verified the videos.
 - TikTok originals are not assigned to a restaurant unless manually selected after viewing. The restaurant matching control excludes the removed Juniper demo merchant.
 - Versioned client assets and local demo state reset ensure the new Explore surface is loaded after this deployment.
+
+## Espresso filming plan, Friends videos, and server fix
+
+- **My Content → My Visits:** The Espresso by Strive filming plan includes a shot checklist and a video URL field. It is an independent visit, not an approved or sponsored free meal. The creator's pasted TikTok or Instagram Reel appears in **My Posts** without fabricated stats.
+- Remove the seeded Juniper & Rye creator claims and mock videos. Data storage changes to v10, with migration of non-seeded, non-Juniper claims and videos from v9.
+- **Explore:** Retains map and opportunity cards but no imported TikTok gallery.
+- **Friends:** Shows five founder-provided TikTok examples. They are *not* falsely attributed to real Fuse friends. Existing friend-search and activity sections remain available.
+- **Covers:** Use TikTok oEmbed or alternate public metadata. If the video ID resolves without a cover image, use the original TikTok player as fallback; if not, offer the direct original link. No unrelated fake cover imagery.
+- **Backend:** Root repository JavaScript uses ESM, while Fuse TikTok functions are written in CommonJS. A new Fuse-specific package.json explicitly sets type to commonjs to avoid Vercel runtime module errors. Resolver also uses module.exports consistently with other TikTok routes.
+- This remains a local-browser prototype, without real shared accounts, verified TikTok followers or secure real-world meal redemption.

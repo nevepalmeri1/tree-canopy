@@ -2,7 +2,7 @@
 // Curated creator inspiration is intentionally separate from the public TikTok friend feed.
 // All founder-supplied links are unassigned until the demo user identifies the restaurant.
 (function(){
-  const originalExplore=explore,originalOffer=offerDetail,originalRender=render;
+  const originalExplore=explore,originalOffer=offerDetail,originalFriends=friends,originalRender=render;
   const getVideos=()=>[...founderInspo,...(Array.isArray(state.inspoExtras)?state.inspoExtras:[])];
   const selection=id=>(state.inspoAssignments||{})[id]||"";
   function card(v){
@@ -11,15 +11,16 @@
     const label=index>=0?"Video "+(index+1):"Saved video";
     const cover=meta.thumbnail&&/^https:\/\//.test(meta.thumbnail)?
       '<img class="inspo-cover-image" src="'+esc(meta.thumbnail)+'" alt="'+esc((meta.title||label)+" TikTok cover")+'" loading="lazy" referrerpolicy="no-referrer">':'';
-    const media='<a class="inspo-cover-link'+(cover?" has-cover":"")+'" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Watch '+esc(label)+' on TikTok">'+
-      cover+'<div class="inspo-cover-fallback"><span class="inspo-tiktok-logo">♪</span><strong>'+esc(label)+'</strong><span class="inspo-preview-status">'+(meta.status==="unavailable"?"Cover unavailable":"TikTok cover preview")+'</span></div>'+
-      '<span class="inspo-cover-play" aria-hidden="true">▶</span><span class="inspo-cover-cta">Watch on TikTok ↗</span></a>';
+    const nativePlayer=meta.id&&!cover?'<div class="inspo-embedded-fallback"><iframe loading="lazy" title="'+esc(label)+' original TikTok video preview" src="https://www.tiktok.com/player/v1/'+esc(meta.id)+'?controls=1&description=0" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Watch original TikTok ↗</a></div>':"";
+    const media=nativePlayer||('<a class="inspo-cover-link'+(cover?" has-cover":"")+'" href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Watch '+esc(label)+' on TikTok">'+
+      cover+'<div class="inspo-cover-fallback"><span class="inspo-tiktok-logo">♪</span><strong>'+esc(label)+'</strong><span class="inspo-preview-status">'+(meta.status==="unavailable"?"TikTok cover not available":"Fetching original cover…")+'</span></div>'+
+      '<span class="inspo-cover-play" aria-hidden="true">▶</span><span class="inspo-cover-cta">Watch on TikTok ↗</span></a>');
     return '<article class="founder-inspo-card" data-inspo-id="'+esc(v.id)+'"><div class="founder-inspo-media">'+media+'</div><div class="founder-inspo-copy"><span class="eyebrow">REAL TIKTOK EXAMPLE</span><h3>'+esc(meta.title||"Creator video inspiration")+'</h3><p>'+esc(meta.author||"Original creator — not verified")+'</p><a href="'+esc(v.url)+'" target="_blank" rel="noopener noreferrer">Open on TikTok ↗</a>'+
       '<label class="label" for="assign-'+esc(v.id)+'">Match with a restaurant</label><select class="field" data-inspo-assign="'+esc(v.id)+'" id="assign-'+esc(v.id)+'"><option value="">Not assigned yet</option>'+state.businesses.filter(b=>b.id!=="juniper").map(b=>'<option value="'+esc(b.id)+'" '+(selection(v.id)===b.id?"selected":"")+'>'+esc(b.name)+'</option>').join("")+'</select></div></article>';
   }
   function gallery(restaurantId){
     const videos=getVideos().filter(v=>!restaurantId||selection(v.id)===restaurantId);
-    return '<section class="inspo-gallery" id="inspiration"><div class="section-heading"><h2>Your TikTok videos</h2><span>'+videos.length+' examples</span></div><p class="small muted">'+(restaurantId?"TikToks assigned to this restaurant to help with the creative brief.":"These are the five actual TikTok links you sent. Tap Watch actual TikTok to see each original. Swipe through the examples, then link any video to a restaurant if it fits.")+'</p>'+
+    return '<section class="inspo-gallery" id="inspiration"><div class="section-heading"><h2>Video examples</h2><span>'+videos.length+' examples</span></div><p class="small muted">'+(restaurantId?"TikToks assigned to this restaurant to help with the creative brief.":"Your five imported TikToks. They are not yet verified posts from Fuse friends. Tap a cover to watch the original video.")+'</p>'+
       (videos.length?'<div class="inspo-scroll">'+videos.map(card).join("")+'</div><p class="inspo-swipe-hint">← Swipe to see all five videos →</p>':'<div class="inspo-empty">No videos assigned to this restaurant yet. Explore the full inspiration gallery to assign some.</div>')+
       (!restaurantId?'<div class="inspo-actions"><button type="button" data-inspo-add class="button secondary">+ Add another TikTok</button></div>':'')+'</section>';
   }
@@ -27,9 +28,16 @@
     const idx=html.lastIndexOf("</section>");
     return idx<0?html+fragment:html.slice(0,idx)+fragment+html.slice(idx);
   }
-  explore=function(){const html=originalExplore();const needle='<div class="section-heading map-section-heading">';return html.includes(needle)?html.replace(needle,gallery(null)+needle):insertBeforeFinalSection(html,gallery(null));};
+  explore=originalExplore;
+  friends=function(){
+    const html=originalFriends(),marker='<div class="section-heading"><h2>Where friends went</h2>';
+    const end=html.indexOf(marker),empty=html.indexOf('<div class="friends-tiktok-empty">');
+    if(end<0)return insertBeforeFinalSection(html,gallery(null));
+    if(empty>=0&&empty<end)return html.slice(0,empty)+gallery(null)+html.slice(end);
+    return html.slice(0,end)+gallery(null)+html.slice(end);
+  };
   offerDetail=function(id){const c=campaign(id);return c?insertBeforeFinalSection(originalOffer(id),gallery(c.businessId)):originalOffer(id);};
-  render=function(){originalRender();if((state.tab==="explore"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
+  render=function(){originalRender();if((state.tab==="friends"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
   const taskCache={};
   async function resolveOne(v){
     if(taskCache[v.id])return taskCache[v.id];
