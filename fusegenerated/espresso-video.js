@@ -35,7 +35,7 @@
  document.addEventListener("change",async event=>{
   if(event.target?.id!=="espressoLocalVideo")return;
   const file=event.target.files?.[0];if(!file)return;
-  if(!/^video\//.test(file.type)&&!/\\.(mov|mp4)$/i.test(file.name)){if(typeof toast==="function")toast("Choose an MP4 or MOV video.");return}
+  if(!/^video\//.test(file.type)&&!/\.(mov|mp4)$/i.test(file.name)){if(typeof toast==="function")toast("Choose an MP4 or MOV video.");return}
   try{await write(file);if(activeUrl){URL.revokeObjectURL(activeUrl);activeUrl=null}await refresh();if(typeof toast==="function")toast("Your Espresso video is now saved and playable in My Content.")}
   catch(e){if(typeof toast==="function")toast("Could not save video in this browser. Try a smaller MP4.");}
  });
