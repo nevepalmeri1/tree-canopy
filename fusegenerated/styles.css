@@ -506,3 +506,10 @@ body,.phone,.explore-page{background:#f8faf6!important}
 .offer-detail-subtitle{font-family:"DM Sans",sans-serif;color:#7a8498;font-size:15px;line-height:1.45;margin:-3px 0 12px}
 .explore-page .brads-note{margin-top:16px;padding:15px 16px;border-radius:14px}
 .explore-page .brads-note h3{font-family:"DM Sans",sans-serif!important;font-weight:700;font-size:16px;margin:0 0 6px}
+
+/* Rollers: accessible age restriction shown on the restaurant card and detail. */
+.age-notice{background:#f4f5fb;border:1px solid #d9dfed;border-left:4px solid #253c78;border-radius:12px;padding:13px 15px;margin:12px 0 18px;color:#263a64}
+.age-notice strong{font-size:13px;font-weight:800;display:block;margin-bottom:5px}
+.age-notice p{font-size:12px;line-height:1.55;margin:0;color:#53617b}
+.age-confirm{display:flex;align-items:flex-start;gap:10px;font-size:12px;line-height:1.5;margin:16px 0;color:#26324d}
+.age-confirm input{width:18px;height:18px;flex:none;margin:1px 0 0}
