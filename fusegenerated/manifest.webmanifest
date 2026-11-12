@@ -1,0 +1,18 @@
+{
+  "name": "FuseGenerated",
+  "short_name": "Fuse",
+  "description": "Discover restaurants and create with friends.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8f9ff",
+  "theme_color": "#202459",
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
