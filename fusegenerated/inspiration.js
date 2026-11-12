@@ -46,11 +46,15 @@
   }
   explore=originalExplore;
   friends=function(){
-    const html=originalFriends(),marker='<div class="section-heading"><h2>Where friends went</h2>';
-    const end=html.indexOf(marker),empty=html.indexOf('<div class="friends-tiktok-empty">');
-    if(end<0)return insertBeforeFinalSection(html,gallery(null));
-    if(empty>=0&&empty<end)return html.slice(0,empty)+gallery(null)+html.slice(end);
-    return html.slice(0,end)+gallery(null)+html.slice(end);
+    const html=originalFriends();
+    const videoHeading='<div class="section-heading"><h2>Friends’ TikToks</h2><span>Shared videos</span></div>';
+    const placeHeading='<div class="section-heading"><h2>Where my friends went</h2><span>From the videos above</span></div>';
+    const first=html.indexOf(videoHeading);
+    const second=html.indexOf(placeHeading,first);
+    if(first>=0&&second>first){
+      return html.slice(0,first)+gallery(null)+html.slice(second);
+    }
+    return insertBeforeFinalSection(html,gallery(null));
   };
   offerDetail=function(id){const c=campaign(id);return c?insertBeforeFinalSection(originalOffer(id),gallery(c.businessId)):originalOffer(id);};
   render=function(){originalRender();refreshLinkedPlaces();if((state.tab==="friends"&&!state.detail)||state.detail?.type==="offer")requestAnimationFrame(resolveVisible);};
