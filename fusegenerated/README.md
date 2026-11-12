@@ -186,3 +186,16 @@ Friends now has one source of truth for its video cards and the restaurant secti
 - Directory creator cards no longer imply any particular restaurant visit independently from an actual linked video.
 
 This is a browser-local curation demo. Assigning a restaurant does not establish that a connected friend actually posted the clip or visited the restaurant. It means the curator chose that association after reviewing the original.
+
+## Real creator accounts and friends (configuration required)
+
+The app now includes account sign-up, sign-in, independent public creator profiles, username search, friend requests, acceptance, and removal. Profile/friend data uses a hosted Supabase PostgreSQL database with row-level security and authenticated user IDs. This is separate from the existing browser-local restaurant/visit/video demo. **The new account screens cannot function until the Supabase project is connected.**
+
+Setup:
+
+1. Create a Supabase project at https://supabase.com/dashboard. Under SQL Editor, run `supabase-schema.sql` from this folder. Verify the policies and account tables were created.
+2. Under Supabase Authentication settings, enable email authentication (and email confirmation). Set the Site URL to `https://fusegenerated.vercel.app`; add your deployment URLs to the allowlist as appropriate.
+3. In the existing Vercel project `fusegenerated`, set `SUPABASE_URL` and `SUPABASE_ANON_KEY` as encrypted environment variables for Production (and Preview if used). Use the public/publishable anon key, **never** the secret/service_role key. Redeploy after setting them.
+4. Open the live app, select Profile → Sign up. Confirm email if required, then create your profile. Mary separately signs up on her own device and chooses her own username. Under Friends search for her username, tap Add friend, and have Mary accept under Friend requests.
+
+The app uses Supabase Auth sessions stored in each browser. The REST/database access is secured by auth-bound PostgreSQL row-level security, not by hiding the publishable key. The API endpoint `/api/social/config` intentionally returns only public client config. The old Mary demo card remains demo-only; signing up creates a separate genuine user profile. Neither TikTok feeds nor campaign activity are synchronized by this change. Before a broad launch add abuse protection, more robust validation, moderation/privacy controls, and production testing.
