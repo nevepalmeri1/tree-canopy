@@ -572,3 +572,6 @@ body,.phone,.explore-page{background:#f7f8ff!important}
 .espresso-empty-video span{font-size:42px;color:#ff625f}.espresso-empty-video p{font-size:14px;font-weight:700;margin:0}
 .espresso-local-upload{margin:12px 0}.espresso-local-upload .field{background:#fff;font-size:12px;max-width:100%;padding:10px}
 .espresso-video-remove{margin-top:9px}.espresso-video-error{color:#a5313e}
+
+/* Invitation to create a real profile, visible on Explore */
+.explore-join-card{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#17244c;color:#fff;padding:16px;border-radius:16px;margin:11px 0 18px;box-shadow:0 7px 24px #17244c20}.explore-join-card strong{display:block;font-size:17px;font-weight:800;letter-spacing:-.45px}.explore-join-card p{font-size:12px;color:#dbe4ff;line-height:1.45;margin:4px 0 0}.explore-join-card .button{min-width:117px;flex:none;background:#ff625f!important;font-size:12px;padding:11px!important;min-height:42px!important}
