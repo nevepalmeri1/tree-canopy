@@ -486,3 +486,23 @@ body,.phone,.explore-page{background:#f8faf6!important}
 .feature-body h3,.offer-body h3{font-family:"DM Sans",sans-serif;font-weight:700;letter-spacing:-.55px;line-height:1.25}
 .section-heading h2,.panel h3,.visit-card h3,.creator-card h3,.restaurant-card h3,.brief-card h3,.modal-header h2{font-family:"DM Sans",sans-serif;font-weight:700;letter-spacing:-.5px;line-height:1.25}
 .offer-body h3{font-size:18px}
+
+/* Explore refresh: restaurant-first hierarchy, no double pills. */
+.explore-page .page-title{font-family:"DM Sans",sans-serif!important;font-size:32px;font-weight:800;letter-spacing:-1.3px;line-height:1.12;color:#14274f}
+.explore-page .page-title em{font-style:normal}
+.explore-page .section-heading h2{font-family:"DM Sans",sans-serif!important;font-weight:800;letter-spacing:-.85px}
+.explore-page .explore-restaurant-name{font-family:"DM Sans",sans-serif!important;font-size:23px!important;line-height:1.18!important;letter-spacing:-.7px!important;font-weight:800!important;color:#172650!important;margin:0 0 6px!important}
+.explore-page .explore-brief-title{font-family:"DM Sans",sans-serif!important;font-size:13px!important;line-height:1.45!important;font-weight:500!important;color:#737d93!important;margin:0 0 9px!important;letter-spacing:0!important}
+.explore-page .explore-card-location{font-family:"DM Sans",sans-serif;font-size:11px;font-weight:600;color:#516081;line-height:1.4;margin:3px 0 8px}
+.explore-page .fresh-opportunity-main .feature-body{padding:17px 17px 15px}
+.explore-page .fresh-opportunity-main .explore-restaurant-name{font-size:27px!important}
+.explore-page .fresh-opportunity-main .explore-brief-title{font-size:14px!important}
+.explore-page .offer-body .explore-restaurant-name{font-size:19px!important}
+.explore-page .offer-body .explore-brief-title{font-size:12px!important}
+.explore-page .offer-body{padding-top:12px}
+.explore-page .duo-label,.explore-page .solo-label,.explore-page .fresh-flag{display:none!important}
+.offer-details-meta{display:flex;gap:8px 14px;flex-wrap:wrap;font-size:11px;color:#68758d;margin:10px 0 16px}
+.offer-details-meta .chip{padding:5px 8px;border-radius:6px;font-size:10px}
+.offer-detail-subtitle{font-family:"DM Sans",sans-serif;color:#7a8498;font-size:15px;line-height:1.45;margin:-3px 0 12px}
+.explore-page .brads-note{margin-top:16px;padding:15px 16px;border-radius:14px}
+.explore-page .brads-note h3{font-family:"DM Sans",sans-serif!important;font-weight:700;font-size:16px;margin:0 0 6px}
