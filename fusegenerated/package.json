@@ -1,5 +1,8 @@
 {
   "name": "fusegenerated-prototype",
   "private": true,
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "@vercel/blob": "^2.3.1"
+  }
 }
