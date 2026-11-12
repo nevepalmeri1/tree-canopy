@@ -47,7 +47,7 @@ function discover(){if(!configured)return notReady();if(!user||!profile)return a
 function notReady(){return '<section class="page">'+
 '<p class="eyebrow">ACCOUNT SETUP</p><h1 class="page-title">Real accounts are being connected.</h1>'+
 '<p class="subhead">The app now supports individual accounts and friends. The database connection must be configured before you or Mary can sign up.</p>'+
-'<div class="notice">Your existing restaurant and video demo is still available in Explore and My Content.</div></section>'}
+'<div class="notice">The app is open to explore now. Creating personal accounts and saving friendships requires Supabase to be connected.</div><p class="small muted">Want us to notify you when profiles launch?</p><a href="/signup.html" class="button secondary full">Join early access</a></section>'}
 const api={
  get enabled(){return true},
  renderFriends:discover,
