@@ -3,7 +3,7 @@
 let client=null,user=null,profile=null,friends=[],pending=[],results=[],searchMatches=null,busy=false,notice="",configured=false;
 const safe=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const h=(label,action,attrs="")=>'<button type="button" class="button tiny" data-social-action="'+action+'" '+attrs+'>'+label+'</button>';
-const input=(name,label,type="text",value="",extra="")=>'<label class="label" for="social-'+name+'">'+label+'</label><input class="field" id="social-'+name+'" name="'+name+'" type="'+type+'" value="'+safe(value)+'" '+extra+' required>';
+const input=(name,label,type="text",value="",extra="")=>'<label class="label" for="social-'+name+'">'+label+'</label><input class="field" id="social-'+name+'" name="'+name+'" type="'+type+'" value="'+safe(value)+'" '+extra+(name==='school'?'':' required')+'>';
 const alert=()=>notice?'<div class="notice" role="status">'+safe(notice)+'</div>':"";
 const redraw=()=>{if(typeof render==="function"&&["friends","profile"].includes(state.tab)&&!state.detail)render()};
 async function load(){if(!client||!user)return;const {data:p,error:e}=await client.from("profiles").select("*").eq("id",user.id).maybeSingle();if(e){notice=e.message;return}profile=p;const {data:rels}=await client.from("friendships").select("id,requester,recipient,status").or("requester.eq."+user.id+",recipient.eq."+user.id);friends=(rels||[]).filter(r=>r.status==="accepted");pending=(rels||[]).filter(r=>r.status==="pending");const ids=[...new Set([...friends,...pending].map(r=>r.requester===user.id?r.recipient:r.requester))];const {data:people}=ids.length?await client.from("profiles").select("id,username,display_name,school,bio").in("id",ids):{data:[]};results=people||[]}
