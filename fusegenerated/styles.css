@@ -563,3 +563,12 @@ body,.phone,.explore-page{background:#f7f8ff!important}
 .guild-preview-image .photo-surface,.guild-preview-image .actual-photo{height:100%;width:100%;object-fit:cover}
 .guild-preview-post .eyebrow{color:#3559e8;font-weight:800}
 .guild-preview-post h3{font-family:"DM Sans",sans-serif;font-size:20px;letter-spacing:-.5px;margin:5px 0 9px}
+
+/* Inline Espresso video, upload, and playback in My Content */
+.espresso-video-slot{background:#f2f5ff;border:1px solid #dbe3f9;border-radius:14px;padding:12px;margin:15px 0}
+.espresso-video-slot .eyebrow{color:#3559e8;font-weight:800;margin:0 0 9px}
+.espresso-inline-player{display:block;width:100%;max-height:460px;aspect-ratio:9/16;object-fit:contain;background:#17244c;border-radius:12px;margin:0 auto 12px}
+.espresso-empty-video{display:grid;place-items:center;text-align:center;min-height:158px;background:#17244c;color:#fff;border-radius:12px;padding:20px;gap:5px}
+.espresso-empty-video span{font-size:42px;color:#ff625f}.espresso-empty-video p{font-size:14px;font-weight:700;margin:0}
+.espresso-local-upload{margin:12px 0}.espresso-local-upload .field{background:#fff;font-size:12px;max-width:100%;padding:10px}
+.espresso-video-remove{margin-top:9px}.espresso-video-error{color:#a5313e}
