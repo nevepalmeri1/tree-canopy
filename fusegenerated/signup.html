@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17244c"><title>Join FuseGenerated — Early Access</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{font-family:"DM Sans",system-ui,sans-serif;color:#17244c;background:#f7f8ff}*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(circle at 5% 5%,#e1e8ff,transparent 38%),#f7f8ff}
+header{display:flex;align-items:center;gap:10px;padding:20px clamp(18px,5vw,60px)}.mark{width:43px;height:43px;border-radius:13px;display:grid;place-items:center;background:#17244c;color:#fff;font-size:25px;font-weight:800}.mark b{color:#ff625f}header strong{font-size:20px;letter-spacing:-.6px}
+main{max-width:560px;margin:8px auto 45px;padding:0 17px}.eyebrow{color:#3559e8;font-size:11px;font-weight:800;letter-spacing:1.9px;text-transform:uppercase}h1{font-size:clamp(38px,8vw,54px);letter-spacing:-2px;line-height:1.04;margin:12px 0 18px}h1 span{color:#3559e8}.intro{color:#586780;font-size:16px;line-height:1.6;margin:0 0 24px}.card{background:#fff;border:1px solid #dde4f5;border-radius:23px;box-shadow:0 14px 42px #1627590e;padding:26px;overflow:hidden}.tag{display:inline-block;background:#ffe4dd;color:#9d3844;border-radius:8px;padding:8px 10px;font-weight:800;font-size:11px}form{display:grid;gap:14px;margin-top:19px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input,.field select{font:inherit;width:100%;padding:13px 14px;border:1px solid #cdd6ec;border-radius:12px;background:#fff;color:#17244c;font-size:16px}.field input:focus,.field select:focus{outline:3px solid #cdd8ff;border-color:#3559e8}.check{display:flex;gap:11px;align-items:flex-start;color:#526179;font-size:12px;line-height:1.5}.check input{margin-top:3px;accent-color:#3559e8;flex:none}.button{font:inherit;background:#3559e8;color:#fff;border:0;padding:15px;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer}.button:hover{background:#2849d3}.button:disabled{opacity:.55;cursor:wait}.note{font-size:12px;line-height:1.6;color:#6b778f}#status{display:none;border-radius:12px;padding:13px;font-size:14px;line-height:1.5}#status.ok{display:block;background:#e7f7ed;color:#175c38}#status.error{display:block;background:#ffeded;color:#942f39}.honeypot{position:absolute;left:-100vw}.success-head{font-size:28px;font-weight:800;margin-bottom:8px}footer{text-align:center;padding:10px 30px 45px;color:#6b778f;font-size:12px}.login{color:#3559e8;font-weight:700;text-decoration:none}
+</style></head><body><header><span class="mark">F<b>✳</b></span><strong>fusegenerated.</strong></header>
+<main><p class="eyebrow">Providence · Creator early access</p><h1>Your city.<br>Your content.<br><span>Better perks.</span></h1><p class="intro">Discover local spots, find friends' recommendations, and get the first look at creator opportunities around campus.</p>
+<section class="card"><span class="tag">EARLY ACCESS SIGNUP</span><h2 style="margin:14px 0 7px;font-size:25px">Get on the list.</h2><p class="intro" style="font-size:14px;margin:0">Join the founding community. We'll email you when personal profiles and real restaurant offers are ready.</p>
+<form id="join"><div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required maxlength="80" placeholder="First and last name"></div>
+<div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="180" placeholder="you@school.edu"></div>
+<div class="field"><label for="school">College (optional)</label><input id="school" name="school" maxlength="100" placeholder="Providence College"></div>
+<div class="field"><label for="interest">How do you want to use Fuse?</label><select id="interest" name="interest" required><option value="">Select one</option><option value="creator">Explore + make videos</option><option value="discover">Discover restaurants with friends</option><option value="business">List opportunities for my business</option></select></div>
+<div class="honeypot" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+<label class="check"><input type="checkbox" name="consent" required value="yes"><span>I agree to receive FuseGenerated early-access and launch updates by email. This is an interest signup, not a created user account or guaranteed free offer.</span></label>
+<button class="button" type="submit">Join Fuse →</button><div id="status" role="status" aria-live="polite"></div></form>
+<p class="note">Privacy: your name, email and optional college are stored in a private signup list for launch communication. No video or social account access is requested here. You can request removal by replying to a launch email.</p>
+</section>
+<p style="text-align:center;color:#586780;font-size:13px;margin-top:20px">Already exploring? <a class="login" href="/">Open the FuseGenerated demo</a></p>
+</main><footer>Built for local creators. Restaurant examples inside the demo are hypothetical until approved.</footer>
+<script>
+document.getElementById("join").addEventListener("submit",async e=>{
+ e.preventDefault();const form=e.currentTarget,button=form.querySelector("button"),status=document.getElementById("status");
+ button.disabled=true;button.textContent="Joining…";status.className="";status.style.display="none";
+ const data=Object.fromEntries(new FormData(form).entries());
+ try{const response=await fetch("/api/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});const result=await response.json().catch(()=>({}));
+ if(!response.ok)throw Error(result.error||"Signup could not be saved. Please try again.");
+ status.className="ok";status.style.display="block";status.textContent="You're on the Fuse early-access list! We'll email you with launch updates.";form.reset();status.scrollIntoView({block:"center",behavior:"smooth"});
+ }catch(err){status.className="error";status.style.display="block";status.textContent=err.message||"Please try again."}
+ finally{button.disabled=false;button.textContent="Join Fuse →"}
+});
+</script></body></html>
