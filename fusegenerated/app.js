@@ -27,10 +27,11 @@ const founderInspo=[
 ];
 const inspirationCache={};
 const seed=()=>({
- role:"student",tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null,offerComp:"visit",starterStatus:"none",overdueSimulation:false,mapVisible:true,referrals:[],referralCode:"NEVE-PVD",contentSection:"visits",personalPosts:[],friendsSection:"discover",friends:["leo"],selectedBusiness:"nitro",savedVideos:[],likedVideos:[],tiktokFeed:"town",inspoAssignments:{},tiktokPosts:[{id:"tiktok-example",videoId:"6718335390845095173",url:"https://www.tiktok.com/@scout2015/video/6718335390845095173",title:"Example TikTok player",creator:"@scout2015",place:"General inspiration (not Providence)",category:"general",createdAt:"2019-01-01T00:00:00Z",demo:true}],
+ role:"student",tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null,offerComp:"visit",starterStatus:"none",overdueSimulation:false,mapVisible:true,referrals:[],referralCode:"NEVE-PVD",contentSection:"visits",personalPosts:[],friendsSection:"discover",friends:["leo","mary"],selectedBusiness:"nitro",savedVideos:[],likedVideos:[],tiktokFeed:"town",inspoAssignments:{},tiktokPosts:[{id:"tiktok-example",videoId:"6718335390845095173",url:"https://www.tiktok.com/@scout2015/video/6718335390845095173",title:"Example TikTok player",creator:"@scout2015",place:"General inspiration (not Providence)",category:"general",createdAt:"2019-01-01T00:00:00Z",demo:true}],
  students:[
   {id:"maya",name:"Neve Palmeri",school:"Providence College",handle:"@nevedog101",fuseHandle:"@nevepalmeri",connected:false,approved:true,history:"Completed 3 of 3 visits",links:["https://www.tiktok.com/@example/video/1001","https://www.instagram.com/reel/example1/"],beginner:false},
-  {id:"leo",name:"Leo Park",school:"Rhode Island College",handle:"@leoexplorespvd",fuseHandle:"@leo.pvd",connected:false,approved:false,history:"First visit",links:[],beginner:true}
+  {id:"leo",name:"Leo Park",school:"Rhode Island College",handle:"@leoexplorespvd",fuseHandle:"@leo.pvd",connected:false,approved:false,history:"First visit",links:[],beginner:true},
+  {id:"mary",name:"Mary",school:"Not added yet",handle:"Not connected",fuseHandle:"@mary.demo",connected:false,approved:false,history:"Demo profile — Mary has not signed up",links:[],beginner:true,demo:true}
  ],
  activeStudent:"maya",
  businesses:[
@@ -82,7 +83,7 @@ function load(){try{
  const v=JSON.parse(localStorage.getItem(STORAGE)||localStorage.getItem(PREVIOUS_STORAGE)||"null");
  if(v&&Array.isArray(v.claims)&&Array.isArray(v.videos)&&Array.isArray(v.campaigns)&&Array.isArray(v.students)&&Array.isArray(v.businesses)){
  const valid=o=>!String(o.id||"").startsWith("seed-")&&v.campaigns.find(c=>c.id===o.campaignId)?.businessId!=="juniper";
- return {...seed(),...v,claims:v.claims.filter(valid),videos:v.videos.filter(valid),personalPosts:Array.isArray(v.personalPosts)?v.personalPosts:[],contentSection:"visits",tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null};}
+ return {...seed(),...v,students:[...v.students.filter(s=>s.id!=="mary"),seed().students.find(s=>s.id==="mary")],friends:[...new Set([...(Array.isArray(v.friends)?v.friends:[]),"mary"])],claims:v.claims.filter(valid),videos:v.videos.filter(valid),personalPosts:Array.isArray(v.personalPosts)?v.personalPosts:[],contentSection:"visits",tab:"explore",detail:null,friendPreview:false,selectedRestaurant:null,selectedCampaign:null};}
  }catch{}return seed()}
 function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(state))}catch{toast("Browser storage is unavailable; changes may not persist.")}}
 function toast(message){const el=$("#toast");el.textContent=message;el.classList.add("show");clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>el.classList.remove("show"),3200)}
@@ -110,7 +111,7 @@ function nav(){const options=state.role==="student"?[["explore","⌂","Explore"]
 function heading(kicker,title,sub){return '<p class="eyebrow">'+kicker+'</p><h1 class="page-title">'+title+'</h1>'+(sub?'<p class="subhead">'+sub+'</p>':"")}
 function available(c){return Math.max(0,c.spots-claimsFor(c.id).filter(a=>!expired(a)).length)}
 function capacity(c){return available(c)+' of '+c.spots+' spots left'}
-function render(){nav();const screens={explore,forYou,friends,visits,content,profile,referrals,overview,create,creators,videos};let html;if(state.detail?.type==="offer")html=offerDetail(state.detail.id);else if(state.detail?.type==="claimed")html=claimedScreen(state.detail.id);else if(state.detail?.type==="friend")html=friendScreen(state.detail.id);else if(state.detail?.type==="restaurant")html=restaurantDetail(state.detail.id);else if(state.detail?.type==="video")html=videoDetail(state.detail.id);else if(state.detail?.type==="campaign")html=campaignResult(state.detail.id);else if(state.detail?.type==="qr")html=qrScreen(state.detail.id);else html=screens[state.tab]();$("#content").innerHTML=html;if(state.tab==="explore"&&state.mapVisible&&!state.detail)requestAnimationFrame(initMap);if(state.tab==="profile"&&state.role==="student")requestAnimationFrame(updateTikTokBadge);if(state.tab==="content"&&state.role==="student"&&state.contentSection==="posts")requestAnimationFrame(loadTikTokFeed);if(state.detail?.type==="qr")requestAnimationFrame(drawQR);}
+function render(){nav();const screens={explore,forYou,friends,visits,content,profile,referrals,overview,create,creators,videos};let html;if(state.detail?.type==="offer")html=offerDetail(state.detail.id);else if(state.detail?.type==="claimed")html=claimedScreen(state.detail.id);else if(state.detail?.type==="friend")html=friendScreen(state.detail.id);else if(state.detail?.type==="friend-profile")html=friendProfile(state.detail.id);else if(state.detail?.type==="restaurant")html=restaurantDetail(state.detail.id);else if(state.detail?.type==="video")html=videoDetail(state.detail.id);else if(state.detail?.type==="campaign")html=campaignResult(state.detail.id);else if(state.detail?.type==="qr")html=qrScreen(state.detail.id);else html=screens[state.tab]();$("#content").innerHTML=html;if(state.tab==="explore"&&state.mapVisible&&!state.detail)requestAnimationFrame(initMap);if(state.tab==="profile"&&state.role==="student")requestAnimationFrame(updateTikTokBadge);if(state.tab==="content"&&state.role==="student"&&state.contentSection==="posts")requestAnimationFrame(loadTikTokFeed);if(state.detail?.type==="qr")requestAnimationFrame(drawQR);}
 function goTab(tab){state.tab=tab;state.detail=null;render();$("#content").scrollTop=0}
 function goDetail(type,id){state.detail={type,id};render();$("#content").scrollTop=0}
 function imageTag(c){return c.comp==="cash"?'<span class="image-tag red">COVERED VISIT · '+esc(c.reward)+'</span>':'<span class="image-tag">'+esc(c.reward)+'</span>'}
@@ -161,6 +162,7 @@ function forYou(){
  '<div class="tiktok-demo-notice">TikTok videos are hosted by their original creators. Fuse does not automatically discover videos, verify friendships, or collect engagement data from links.</div></section>';
 }
 const community=[
+ {id:"mary",name:"Mary",handle:"@mary.demo",school:"School not added",area:"Providence · demo",tags:"New to Fuse",initials:"M",demo:true},
  {id:"leo",name:"Leo Park",handle:"@leo.pvd",school:"Rhode Island College",area:"College Hill",tags:"Coffee · lunch",initials:"LP"},
  {id:"emma",name:"Emma Rizzo",handle:"@emmarizzo",school:"Providence College",area:"Elmhurst",tags:"Brunch · cafés",initials:"ER"},
  {id:"sofia",name:"Sofia Chen",handle:"@sofia.ri",school:"Brown University",area:"Fox Point",tags:"Food · local guides",initials:"SC"},
@@ -173,7 +175,8 @@ const friendVisits=[
  {creator:"Emma Rizzo",handle:"@emmarizzo",restaurant:"Poppy Table",campaign:"pastry",title:"A little bakery find",when:"Weekend pick",note:"Saved this spot for coffee and pastries"},
  {creator:"Sofia Chen",handle:"@sofia.ri",restaurant:"Strive Kitchen + Bar",campaign:"strive",title:"Dinner on Admiral Street",when:"Local favorite",note:"Shared a dinner recommendation"}
 ];
-function friendCard(u){const connected=state.friends.includes(u.id);return '<article class="friend-card"><div class="friend-avatar">'+esc(u.initials)+'</div><div class="friend-meta"><h3>'+esc(u.name)+'</h3><p>'+esc(u.handle)+' · '+esc(u.school)+'</p><span>'+esc(u.area+' · '+u.tags)+'</span></div>'+btn(connected?"✓ Friends":"+ Add","toggle-friend",u.id,"button tiny "+(connected?"secondary":""))+'</article>';}
+function friendCard(u){const connected=state.friends.includes(u.id);return '<article class="friend-card"><div class="friend-avatar">'+esc(u.initials)+'</div><div class="friend-meta"><h3>'+esc(u.name)+'</h3><p>'+esc(u.handle)+' · '+esc(u.school)+'</p><span>'+esc(u.area+' · '+u.tags)+'</span></div>'+btn("View profile","view-friend",u.id,"button tiny secondary")+btn(connected?"✓ Friends":"+ Add","toggle-friend",u.id,"button tiny "+(connected?"secondary":""))+'</article>';}
+function friendProfile(id){const u=community.find(x=>x.id===id);if(!u)return friends();const connected=state.friends.includes(id);return '<section class="page friends-page">'+btn("← Back to friends","friends","","button secondary tiny")+heading("CREATOR PROFILE",esc(u.name),esc(u.handle))+'<div class="panel profile-person"><div class="profile-avatar">'+esc(u.initials)+'</div><div><h3>'+esc(u.name)+'</h3><p class="small muted">'+esc(u.school)+'</p><p class="small muted">'+esc(u.tags)+'</p></div></div>'+(u.demo?'<div class="notice">This is a demo profile. Mary has not created or verified an account, and friendship is saved only in this browser.</div>':'')+'<div class="panel"><h3>Connect on Fuse</h3><p class="small muted">Keep this creator in your Friends list.</p>'+btn(connected?"✓ Friends · Remove":"+ Add friend","toggle-friend",u.id,"button full "+(connected?"secondary":""))+'</div></section>';}
 function friends(){const list=community.filter(x=>state.friendsSection!=="mine"||state.friends.includes(x.id));return '<section class="page friends-page">'+heading("THE PEOPLE BEHIND THE POSTS","Friends","See where your friends have been eating and find people to create with.")+
  '<div class="section-heading"><h2>Friends’ TikToks</h2><span>Shared videos</span></div>'+
  (state.tiktokPosts.filter(v=>v.category==="friend").length?'<div class="tiktok-video-list">'+state.tiktokPosts.filter(v=>v.category==="friend").map(videoCardEmbed).join("")+'</div>':'<div class="friends-tiktok-empty"><h3>Your friends’ videos will appear here.</h3><p>Paste a TikTok from a creator you follow and mark it as Friends. Their original video will play directly on Fuse.</p>'+btn("Add a friend’s TikTok","add-tiktok","","button secondary")+'</div>')+
@@ -298,6 +301,7 @@ case"delete-tiktok":state.tiktokPosts=state.tiktokPosts.filter(v=>v.id!==id);per
 case"show-explore":return goTab("explore");
 case"content-section":state.contentSection=id;render();return;
 case"friend-section":state.friendsSection=id;render();return;
+case"view-friend":return goDetail("friend-profile",id);
 case"toggle-friend":state.friends=state.friends.includes(id)?state.friends.filter(x=>x!==id):[...state.friends,id];persist();render();return;
 case"scan-qr":return scanQR();
 case"stop-qr":return stopQrScan();
