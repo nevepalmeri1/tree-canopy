@@ -27,3 +27,7 @@ create policy "Sender requests friendship" on public.friendships for insert to a
 create policy "Recipient accepts request" on public.friendships for update to authenticated using(recipient = (select auth.uid()) and status = 'pending') with check(recipient = (select auth.uid()) and status = 'accepted');
 create policy "Either participant may unfriend" on public.friendships for delete to authenticated using(requester = (select auth.uid()) or recipient = (select auth.uid()));
 -- Do not put the Supabase service_role key in the frontend or Vercel environment for this app.
+
+-- Allow request recipients to change only the status column, not requester/recipient IDs.
+revoke update on public.friendships from authenticated;
+grant update(status) on public.friendships to authenticated;
