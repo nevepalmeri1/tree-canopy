@@ -575,3 +575,10 @@ body,.phone,.explore-page{background:#f7f8ff!important}
 
 /* Invitation to create a real profile, visible on Explore */
 .explore-join-card{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#17244c;color:#fff;padding:16px;border-radius:16px;margin:11px 0 18px;box-shadow:0 7px 24px #17244c20}.explore-join-card strong{display:block;font-size:17px;font-weight:800;letter-spacing:-.45px}.explore-join-card p{font-size:12px;color:#dbe4ff;line-height:1.45;margin:4px 0 0}.explore-join-card .button{min-width:117px;flex:none;background:#ff625f!important;font-size:12px;padding:11px!important;min-height:42px!important}
+
+/* Logo: vector asterisk rather than Unicode emoji; stable on mobile/desktop. */
+.brand-mark{position:relative!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;padding-left:8px!important;line-height:1!important;overflow:visible}
+.brand-mark>.brand-spark-wrap{position:absolute!important;top:4px!important;right:3px!important;width:16px!important;height:16px!important;display:block!important;margin:0!important;padding:0!important;color:#ff625f!important;font-size:0!important;line-height:0!important}
+.brand-mark>.brand-spark-wrap .brand-spark{display:block!important;width:100%!important;height:100%!important;overflow:visible!important}
+.caption-star{display:inline-flex!important;align-items:center!important;justify-content:center!important;color:#ff625f!important;width:56px;height:56px;font-size:0!important}
+.caption-star .brand-spark{display:block;width:49px;height:49px}
