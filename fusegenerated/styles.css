@@ -555,3 +555,11 @@ body,.phone,.explore-page{background:#f7f8ff!important}
 .age-notice{background:#fff0ec;border-color:#ffcebd;border-left-color:#ff625f;color:#692c38}
 .age-notice p{color:#704755}
 .age-confirm input{accent-color:#3559e8}
+
+/* Guild creator portfolio preview alongside Espresso */
+.guild-film-card .espresso-plan-status{background:#e8edff;color:#2745b5}
+.guild-preview-post{overflow:hidden;border:1px solid #d7def6}
+.guild-preview-image{height:152px;margin:-17px -17px 16px;overflow:hidden;background:#e8edff}
+.guild-preview-image .photo-surface,.guild-preview-image .actual-photo{height:100%;width:100%;object-fit:cover}
+.guild-preview-post .eyebrow{color:#3559e8;font-weight:800}
+.guild-preview-post h3{font-family:"DM Sans",sans-serif;font-size:20px;letter-spacing:-.5px;margin:5px 0 9px}
