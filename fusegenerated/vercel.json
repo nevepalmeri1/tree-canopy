@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://w6hbixp305.execute-api.us-east-2.amazonaws.com/",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "destination": "https://w6hbixp305.execute-api.us-east-2.amazonaws.com/",
+      "permanent": false
+    },
+    {
+      "source": "/signup.html",
+      "destination": "https://w6hbixp305.execute-api.us-east-2.amazonaws.com/signup.html",
+      "permanent": false
+    }
+  ]
+}
